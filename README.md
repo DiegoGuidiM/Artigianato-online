@@ -1,3 +1,7 @@
-# Artigianato-online
-Universita della insubria, progetto di tecnologie innovative per lo sviluppo web. 
-Gruppo, Emmanuele Svizzero, Diego Guidi, Emmanuele basso e Giorgio Zonta.
+### CoWorkSpace
+Università degli studi dell'insubria, progetto di tecnologie innovative per lo sviluppo web. 
+Gruppo: 
+Emanuele Gobessi -> Frontend developer
+Diego Guidi -> DataBase developer
+Emanuele Contini -> Backend developer
+Giorgio Zonta -> Operations developer
