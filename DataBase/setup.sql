@@ -24,6 +24,7 @@ CREATE TABLE utenti (
     email VARCHAR(100) UNIQUE NOT NULL,
     telefono VARCHAR(20),
     data_registrazione TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    ruolo VARCHAR(20) NOT NULL,
     CONSTRAINT chk_email CHECK (email LIKE '%@%')
 );
 
@@ -107,3 +108,4 @@ INSERT INTO pagamenti (id_prenotazione, importo, metodo_pagamento) VALUES
 -- =========================================
 -- FINE SETUP
 -- =========================================
+
