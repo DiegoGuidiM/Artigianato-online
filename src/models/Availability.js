@@ -1,27 +1,33 @@
 class Availability {
 
     availability_id;
-    site_id;
+    location;
+    space_type;
     date;
     start_time;
     end_time;
-    available_slots;
+    available_seats;
 
-    constructor(availability_id=null, site_id, date, start_time, end_time, available_slots) {
+    constructor(availability_id = null, location, space_type, date, start_time, end_time, available_seats) {
         this.availability_id = availability_id;
-        this.site_id = site_id;
+        this.location = location;
+        this.space_type = space_type;
         this.date = date;
         this.start_time = start_time;
         this.end_time = end_time;
-        this.available_slots = available_slots;
+        this.available_seats = available_seats;
     }
 
     get_id() {
         return this.availability_id;
     }
 
-    get_site_id() {
-        return this.site_id;
+    get_location() {
+        return this.location;
+    }
+
+    get_space_type() {
+        return this.space_type;
     }
 
     get_date() {
@@ -36,16 +42,20 @@ class Availability {
         return this.end_time;
     }
 
-    get_available_slots() {
-        return this.available_slots;
+    get_available_seats() {
+        return this.available_seats;
     }
 
     set_id(availability_id) {
         this.availability_id = availability_id;
     }
 
-    set_site_id(site_id) {
-        this.site_id = site_id;
+    set_location(location) {
+        this.location = location;
+    }
+
+    set_space_type(space_type) {
+        this.space_type = space_type;
     }
 
     set_date(date) {
@@ -60,8 +70,8 @@ class Availability {
         this.end_time = end_time;
     }
 
-    set_available_slots(available_slots) {
-        this.available_slots = available_slots;
+    set_available_seats(available_seats) {
+        this.available_seats = available_seats;
     }
 
 }

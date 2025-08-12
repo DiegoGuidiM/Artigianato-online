@@ -5,18 +5,14 @@ class User {
     surname;
     email;
     password;
-    mobile;
-    registration_date;
     role;
 
-    constructor(user_id=null, name, surname, email, password, mobile, registration_date=null, role) {
+    constructor(user_id=null, name, surname, email, password, role) {
         this.user_id = user_id;
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.password = password;
-        this.mobile = mobile;
-        this.registration_date = registration_date;
         this.role = role;
     }
 
@@ -36,12 +32,8 @@ class User {
         return this.email;
     }
 
-    get_mobile() {
-        return this.mobile;
-    }
-
-    get_registration_date() {
-        return this.registration_date;
+    get_password() {
+        return this.password;
     }
 
     get_role() {
@@ -64,12 +56,8 @@ class User {
         this.email = email;
     }
 
-    set_mobile(mobile) {
-        this.mobile = mobile;
-    }
-
-    set_registration_date(registration_date) {
-        this.registration_date = registration_date;
+    set_password(password) {
+        this.password = password;
     }
 
     set_role(role) {
