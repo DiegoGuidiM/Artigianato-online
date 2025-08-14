@@ -5,7 +5,6 @@
 -- per la gestione di utenti, sedi, disponibilità,
 -- prenotazioni e pagamenti.
 
-	(Ho fatto i comenti con chatgpt)
 -- ============================================
 
 -- ============================================
@@ -145,3 +144,4 @@ CREATE TABLE Notification (
     status VARCHAR(50) NOT NULL,                    -- Stato (letto, non letto)
     FOREIGN KEY (id_user) REFERENCES User(id_user)
 );
+
