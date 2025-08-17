@@ -3,6 +3,17 @@
 Il backend di questo progetto segue una struttura modulare e ben organizzata, suddivisa in diversi livelli di responsabilità.  
 Di seguito viene descritta l’architettura generale senza entrare nei dettagli implementativi.
 
+## Requisiti
+
+- Nella cartella principale del progetot, creare un file venv.env, e scrivere:
+    DB_HOST=host (localhost finché in locale)
+    DB_USER=user (nome utente personale di PostgreSQL, generalmente postgres)
+    DB_PASSWORD=password (password associata all'utente precedentemente inserito, generalmente 5432)
+- Su terminale prima dell'avvio del programma digitare
+  - npm install express
+  - npm install knex pg
+  - npm install dotenv  
+
 ## Struttura dei Componenti
 
 - **Model**
@@ -20,5 +31,17 @@ Di seguito viene descritta l’architettura generale senza entrare nei dettagli 
   - I services utilizzano i repository per accedere ai dati e forniscono funzionalità ai controller.
 
 - **Controller**
-  - I controller gestiscono le richieste HTTP (ad esempio GET, POST, PUT, DELETE) relative a ciascun oggetto.
+  - I controller contengono tutte le funzioni per la gestione di richieste HTTP (ad esempio GET, POST, PUT, DELETE) relative a ciascun oggetto.
   - Ricevono le richieste dal client, interagiscono con i servizi per eseguire la logica necessaria e restituiscono le risposte appropriate.
+  - Le routes contenenti le richieste HTTP vere e proprie sono contenute nel file routes, per garantire una maggiore pulizia del codice dei controlli stessi e del main.
+
+## Librerie e framework usati
+
+- **Express.js**
+  - Express.js è un framework pensato per costruire API insieme a Node.js (ambiene standard per eseguire JavaScript al di fuori di un browser), e fornisce metodi fondamentali per la gestione di routes, richieste HTTP e programmazione asincrona.
+
+- **Knex.js**
+  - Knex.js è un query builder basato su ORM per Node.js che fornisce metodi e funzioni per PostgreSQL, implementando query classiche o uno stile più vicino a quello della programmazione asincrona tramite promises.
+
+- **dotenv**
+  - dotenv è un modulo utilizzato per importare dati e variabili d'ambiente da file .env a moduli e classi del programma.
