@@ -5,6 +5,7 @@
 -- per la gestione di utenti, sedi, disponibilità,
 -- prenotazioni e pagamenti.
 
+	
 -- ============================================
 
 -- ============================================
@@ -12,7 +13,7 @@
 -- ============================================
 -- Obiettivo: Memorizzare informazioni sugli utenti della piattaforma
 -- Ruolo: Base per autenticazione, gestione profilo e assegnazione prenotazioni
-CREATE TABLE User (
+CREATE TABLE Users (
     id_user INT PRIMARY KEY AUTO_INCREMENT, -- ID univoco per ogni utente
     name VARCHAR(100) NOT NULL,              -- Nome dell'utente
     surname VARCHAR(100) NOT NULL,           -- Cognome dell'utente
@@ -144,4 +145,3 @@ CREATE TABLE Notification (
     status VARCHAR(50) NOT NULL,                    -- Stato (letto, non letto)
     FOREIGN KEY (id_user) REFERENCES User(id_user)
 );
-
