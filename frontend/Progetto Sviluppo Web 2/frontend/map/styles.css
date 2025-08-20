@@ -1,0 +1,216 @@
+/**
+ * MAP PAGE STYLES
+ * 
+ * This stylesheet provides the visual design for the CoWorkSpace map page.
+ * Features include:
+ * - Full-screen Italy map background
+ * - Central city search with autocomplete dropdown
+ * - Floating action buttons for filters and user menu
+ * - Off-canvas user account management panel
+ * - Modal filters system
+ * - Responsive design for all screen sizes
+ */
+
+/* BASE LAYOUT */
+/* Full height layout with white text default */
+html, body {
+	height: 100%;
+	margin: 0;
+	font-family: Arial, Helvetica, sans-serif;
+	color: #fff;
+}
+
+/* Main body with Italy map background image */
+body {
+	background-image: url('../images/sfondo_mappa.png');
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	display: flex;
+	align-items: stretch;
+}
+
+/* Dark gradient overlay for better content contrast */
+.map-overlay {
+	width: 100%;
+	min-height: 100vh;
+	background: linear-gradient(180deg, rgba(0, 0, 0, 0.20), rgba(0, 0, 0, 0.55));
+	display: flex;
+	flex-direction: column;
+}
+
+/* CITY SEARCH INTERFACE */
+/* Central search container positioned above map */
+.search-wrap {
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	top: 110px;
+	width: min(80vw, 420px);
+	z-index: 3001;
+}
+
+/* Search input with gold border and semi-transparent background */
+.search-input {
+	border-radius: 999px;
+	padding: 10px 14px;
+	border: 2px solid #bba671; /* Gold border */
+	background: rgba(0, 0, 0, 0.35);
+	color: #fff;
+}
+/* Placeholder text styling */
+.search-input::placeholder { color: rgba(255, 255, 255, 0.8); }
+
+/* AUTOCOMPLETE SUGGESTIONS DROPDOWN */
+/* Suggestions dropdown that appears below search input */
+.search-suggestions {
+	position: absolute;
+	top: calc(100% + 6px);
+	left: 0;
+	right: 0;
+	background: rgba(20, 20, 20, 0.8);
+	border: 2px solid #bba671;
+	border-radius: 10px;
+	box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+	list-style: none;
+	margin: 0;
+	padding: 6px 0;
+	max-height: 240px;
+	overflow-y: auto;
+}
+/* Individual suggestion items */
+.search-suggestions li {
+	padding: 8px 12px;
+	cursor: pointer;
+	color: #fff;
+}
+/* Hover and active states for suggestions */
+.search-suggestions li:hover,
+.search-suggestions li.active {
+	background: rgba(187,166,113,0.2);
+}
+
+/* MAIN MAP AREA */
+/* Flexible container for the Italy map */
+.map-area { 
+	flex: 1; 
+}
+
+/* Italy map image with responsive sizing and shadow */
+.italy-map {
+	max-width: min(88vw, 520px);
+	width: 100%;
+	height: auto;
+	filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.35));
+}
+
+/* FLOATING ACTION BUTTONS (FAB) */
+/* Base style for small circular floating buttons */
+.filters-fab {
+	border: none;
+	border-radius: 50%;
+	background: linear-gradient(90deg, #b6a271 0%, #9f8b58 100%);
+	color: #012028;
+	box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+/* Size modifier for small FABs */
+.small-fab { width: 44px; height: 44px; }
+/* Icon sizing within FABs */
+.filters-icon { font-size: 1.1rem; }
+
+/* FAB POSITIONING */
+/* User account button positioned in top right corner */
+.user-fab { position: fixed; top: 16px; right: 16px; }
+
+/* Filters button positioned in bottom right corner */
+#filtersBtn { position: fixed; right: 16px; bottom: 16px; }
+
+/* USER ACCOUNT OFF-CANVAS PANEL */
+/* Base styling for gold-themed off-canvas panel */
+.offcanvas-gold {
+	background: #e7d9b9;
+	color: #222;
+	border-left: 3px solid #bba671;
+	z-index: 4001;
+}
+/* Responsive width for user account off-canvas */
+#userOffcanvas.offcanvas-end {
+	width: 40vw;
+	max-width: 400px;
+	background: #e7d9b9;
+}
+
+/* Elegant title styling for off-canvas header */
+#userOffcanvas .offcanvas-title {
+	font-family: 'Georgia', serif;
+	color: #000;
+	font-size: 1.8rem;
+	font-weight: 700;
+	border-bottom: 2px solid #bba671;
+	padding-bottom: 8px;
+	width: 100%;
+}
+
+/* ACCOUNT MENU STYLING */
+/* Menu-style list for account actions */
+.account-menu {
+	list-style: none;
+	padding: 0;
+	margin: 16px 0 0 0;
+}
+/* Subtle borders between menu items */
+.account-menu li { border-bottom: 1px solid rgba(0,0,0,0.2); }
+/* Account action link buttons */
+.account-link {
+	width: 100%;
+	background: none;
+	border: none;
+	padding: 12px 8px;
+	text-align: left;
+	font-size: 1rem;
+	color: #222;
+	cursor: pointer;
+}
+/* Hover effect for account links */
+.account-link:hover { background: rgba(0,0,0,0.05); }
+
+/* LOGOUT BUTTON */
+/* Red circular logout button positioned at bottom of off-canvas */
+.logout-fab {
+	position: absolute;
+	right: 5px;
+	bottom: 5px;
+	width: 44px;
+	height: 44px;
+	border-radius: 50%;
+	border: none;
+	background: radial-gradient(circle at 30% 30%, #ff7b7b, #e02424);
+	color: #fff;
+	box-shadow: 0 8px 18px rgba(224,36,36,0.45);
+	cursor: pointer;
+}
+/* Center the logout icon */
+.logout-fab svg { display: block; margin: auto; }
+
+/* FILTERS MODAL */
+/* Gold-themed modal card for filters */
+.filters-card {
+	background: #e7d9b9;
+	color: #222;
+	border: 3px solid #bba671;
+	border-radius: 10px;
+}
+/* Modal positioning below search area */
+#filtersModal .modal-dialog { margin-top: 155px; }
+/* Filter modal typography and button styling */
+.filters-card .modal-header .modal-title { color: #3d3d3d; font-weight: 600; }
+.filters-card .btn-primary { background: #bba671; border-color: #bba671; }
+.filters-card .btn-outline-secondary { color: #6b5b35; border-color: #c7b481; }
+.filters-card .btn-outline-secondary:hover { background: rgba(0, 0, 0, 0.06); }
+/* Close button positioning */
+.btn-close { position: absolute; top: 16px; right: 14px; }
+

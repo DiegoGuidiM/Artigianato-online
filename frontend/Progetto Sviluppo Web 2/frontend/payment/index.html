@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<!-- Payment Checkout Page
+     Features:
+     - Secure payment form with validation
+     - Booking summary display
+     - Credit card processing simulation
+     - Receipt generation
+     - Success/error modal feedback
+-->
+<html lang="en">
+<head>
+  <!-- Google Fonts for elegant typography -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Payment — Checkout</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Back navigation button -->
+  <a href="../room/room.html" class="back-btn" aria-label="Back to room details" onclick="history.back(); return false;">
+    <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+      <path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </a>
+
+  <main class="page">
+    <!-- Page header with title and description -->
+    <header class="header">
+      <h1 class="title">Secure Payment</h1>
+      <p class="subtitle">Booking summary and billing information</p>
+    </header>
+
+    <!-- Main checkout layout with summary and form -->
+    <section class="checkout-grid">
+      <!-- Booking Summary Card -->
+      <aside class="card summary">
+        <h2 class="card-title">Summary</h2>
+        <dl class="summary-list">
+          <div>
+            <dt>Room</dt>
+            <dd id="sumRoom">—</dd>
+          </div>
+          <div>
+            <dt>Date</dt>
+            <dd id="sumDate">—</dd>
+          </div>
+          <div>
+            <dt>Guests</dt>
+            <dd id="sumGuests">—</dd>
+          </div>
+          <div>
+            <dt>Rate</dt>
+            <dd id="sumPrice">—</dd>
+          </div>
+        </dl>
+        <div class="total">
+          <span>Estimated Total</span>
+          <strong id="sumTotal">—</strong>
+        </div>
+        <p class="note">* Indicative estimate. Final amount may vary based on taxes and promotions.</p>
+      </aside>
+
+      <!-- Payment Form Card -->
+      <form id="payForm" class="card form" novalidate>
+        <h2 class="card-title">Billing Information</h2>
+
+        <!-- Personal information grid -->
+        <div class="grid-2">
+          <label class="form-field">
+            <span>Full Name</span>
+            <input type="text" name="fullName" required placeholder="John Doe">
+          </label>
+          <label class="form-field">
+            <span>Email</span>
+            <input type="email" name="email" required placeholder="john.doe@example.com">
+          </label>
+        </div>
+
+        <div class="grid-2">
+          <label class="form-field">
+            <span>Phone</span>
+            <input type="tel" name="phone" placeholder="+1 555 123 4567">
+          </label>
+          <label class="form-field">
+            <span>Company (optional)</span>
+            <input type="text" name="company" placeholder="Doe Inc.">
+          </label>
+        </div>
+
+        <label class="form-field">
+          <span>Address</span>
+          <input type="text" name="address" placeholder="123 Main St, New York, NY">
+        </label>
+
+        <!-- Payment method section -->
+        <h2 class="card-title mt">Payment Method</h2>
+        <div class="grid-2">
+          <label class="form-field">
+            <span>Card Number</span>
+            <input type="text" name="cardNumber" inputmode="numeric" maxlength="19" placeholder="1234 5678 9012 3456" required>
+          </label>
+          <label class="form-field">
+            <span>Cardholder Name</span>
+            <input type="text" name="cardHolder" placeholder="JOHN DOE" required>
+          </label>
+        </div>
+
+        <div class="grid-3">
+          <label class="form-field">
+            <span>Expiry Date</span>
+            <input type="text" name="exp" inputmode="numeric" maxlength="5" placeholder="MM/YY" required>
+          </label>
+          <label class="form-field">
+            <span>CVV</span>
+            <input type="password" name="cvv" inputmode="numeric" maxlength="4" placeholder="123" required>
+          </label>
+          <label class="form-field">
+            <span>Tax Code (optional)</span>
+            <input type="text" name="taxCode" placeholder="ABC123DEF456">
+          </label>
+        </div>
+
+        <!-- Terms agreement -->
+        <label class="checkbox">
+          <input type="checkbox" name="tos" required>
+          <span>I accept terms and conditions</span>
+        </label>
+
+        <!-- Submit button -->
+        <div class="actions">
+          <button id="payBtn" type="submit" class="btn-primary">Pay Now</button>
+        </div>
+        <p class="footnote">Demo transaction for testing purposes (no real charges will occur).</p>
+      </form>
+    </section>
+  </main>
+
+  <!-- Success/Result Modal -->
+  <div id="resultModal" class="result-modal" aria-hidden="true">
+    <div class="result-dialog">
+      <h3 id="resultTitle">Payment Completed</h3>
+      <p id="resultText">Your booking has been registered.</p>
+      <div class="result-actions">
+        <a class="btn-secondary" href="../rooms/index.html">Back to Rooms</a>
+        <button class="btn-primary" onclick="document.getElementById('resultModal').classList.remove('show')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

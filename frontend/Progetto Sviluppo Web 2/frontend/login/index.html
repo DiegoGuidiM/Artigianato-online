@@ -1,0 +1,169 @@
+<!doctype html>
+<!-- CoWorkSpace Login Page
+     Features:
+     - Role-based authentication (Client/Host)
+     - Interactive bubble system for role selection
+     - Modal popups for login and registration forms
+     - Responsive design with custom styling
+-->
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>CoWorkSpace — Login</title>
+
+		<!-- Bootstrap CSS for layout and components -->
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+		<!-- Custom styles for login page -->
+		<link rel="stylesheet" href="styles.css" />
+	</head>
+
+	<!-- Registration Popup Modal -->
+	<!-- Background overlay for registration popup -->
+	<div id="signupBackdrop" class="popup-backdrop" hidden></div>
+
+	<!-- Registration form popup card -->
+	<div id="signupPopup" class="popup-card" hidden>
+		<div class="popup-header">
+			<h5 id="signupTitle">Create your account</h5>
+			<button type="button" class="popup-close" id="signupClose" aria-label="Close">×</button>
+		</div>
+
+		<!-- Registration form with validation -->
+		<form id="signupForm" novalidate>
+			<!-- Hidden field to store selected role (customer/manager) -->
+			<input type="hidden" name="role" id="signupRole" value="customer" />
+
+			<!-- First name field -->
+			<div class="mb-2">
+				<label for="signupNome" class="form-label">First Name</label>
+				<input id="signupNome" name="nome" type="text" class="form-control" required />
+			</div>
+
+			<!-- Last name field -->
+			<div class="mb-2">
+				<label for="signupCognome" class="form-label">Last Name</label>
+				<input id="signupCognome" name="cognome" type="text" class="form-control" required />
+			</div>
+
+			<!-- Email field -->
+			<div class="mb-2">
+				<label for="signupEmail" class="form-label">Email</label>
+				<input id="signupEmail" name="email" type="email" class="form-control" required />
+			</div>
+
+			<!-- Password field with minimum length validation -->
+			<div class="mb-3">
+				<label for="signupPassword" class="form-label">Password</label>
+				<input id="signupPassword" name="password" type="password" class="form-control" required minlength="6" />
+			</div>
+
+			<!-- Action buttons -->
+			<div class="d-flex justify-content-end gap-2">
+				<button type="button" class="btn btn-outline-secondary" id="signupCancel">Cancel</button>
+				<button type="submit" class="btn btn-primary">Create Account</button>
+			</div>
+		</form>
+	</div>
+
+	<!-- Login Popup Modal -->
+	<!-- Background overlay for login popup -->
+	<div id="loginBackdrop" class="popup-backdrop" hidden></div>
+
+	<!-- Login form popup card -->
+	<div id="loginPopup" class="popup-card" hidden>
+		<div class="popup-header">
+			<h5 id="loginTitle">Sign in</h5>
+			<button type="button" class="popup-close" id="loginClose" aria-label="Close">×</button>
+		</div>
+
+		<!-- Login form with validation -->
+		<form id="loginForm" novalidate>
+			<!-- Hidden field to store selected role (customer/manager) -->
+			<input type="hidden" name="role" id="loginRole" value="customer" />
+
+			<!-- Email field -->
+			<div class="mb-2">
+				<label for="loginEmail" class="form-label">Email</label>
+				<input id="loginEmail" name="email" type="email" class="form-control" required />
+			</div>
+
+			<!-- Password field -->
+			<div class="mb-3">
+				<label for="loginPassword" class="form-label">Password</label>
+				<input id="loginPassword" name="password" type="password" class="form-control" required minlength="6" />
+			</div>
+
+			<!-- Action buttons -->
+			<div class="d-flex justify-content-end gap-2">
+				<button type="button" class="btn btn-outline-secondary" id="loginCancel">Cancel</button>
+				<button type="submit" class="btn btn-primary">Sign In</button>
+			</div>
+		</form>
+	</div>
+
+	<!-- Main page body with background overlay -->
+	<body>
+		<!-- Dark overlay over background image for text contrast -->
+		<div class="bg-overlay">
+			<!-- Top header with admin access and branding -->
+			<header class="container-fluid d-flex justify-content-between align-items-start p-3">
+				<!-- Admin access button (top-left) -->
+				<button id="adminAccess" class="admin-btn" aria-label="Administrator access">
+					<img src="../images/icon-admin.png" alt="Admin button icon" />
+				</button>
+
+				<!-- Brand logo and tagline (top-right) -->
+				<div class="text-end">
+					<div class="logo">CoWorkSpace</div>
+					<div class="slogan">all you need for your meetings</div>
+				</div>
+			</header>
+
+			<!-- Main content area (currently empty) -->
+			<main class="container-fluid flex-grow-1"></main>
+
+			<!-- Bottom action bar with main buttons -->
+			<div class="bottom-bar">
+				<div class="container d-flex justify-content-center">
+					<!-- Responsive button container -->
+					<div class="col-10 col-sm-8 col-md-6 d-flex gap-3 justify-content-between px-0">
+						<!-- Login button - triggers role selection bubble -->
+						<button id="btnLogin" class="action-btn" data-action="login" aria-label="Sign in">
+							Sign in <span class="arrow" aria-hidden="true">›</span>
+						</button>
+						<!-- Register button - triggers role selection bubble -->
+						<button id="btnRegister" class="action-btn" data-action="register" aria-label="Sign up">
+							Sign up <span class="arrow" aria-hidden="true">›</span>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Role Selection Bubble -->
+		<!-- Fixed and centered bubble that appears when login/register is clicked -->
+        <div id="roleBubble" class="role-bubble">
+            <!-- Dynamic title that changes based on selected action -->
+            <p class="role-bubble-title" id="bubbleTitle"></p>
+            <!-- Role selection buttons -->
+            <div class="role-bubble-actions">
+                <button type="button" class="btn btn-outline-primary btn-sm" data-role="customer">Client</button>
+                <button type="button" class="btn btn-outline-success btn-sm" data-role="manager">Host</button>
+            </div>
+            <!-- Arrow that points to the clicked button (positioned via JavaScript) -->
+            <span class="role-bubble-arrow" id="bubbleArrow"></span>
+        </div>
+
+
+
+		<!-- Bootstrap JS bundle -->
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+		<!-- App script -->
+		<script src="app.js"></script>
+	</body>
+</html>
+
+

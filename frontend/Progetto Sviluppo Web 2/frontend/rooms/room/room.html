@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<!-- Room Detail Page
+     Features:
+     - Room information display (image, metadata, description)
+     - Interactive calendar modal for availability checking
+     - Date selection and booking initiation
+     - Responsive design with elegant typography
+     - Accessible navigation and modal interactions
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Room Details</title>
+  <!-- Google Fonts for elegant typography combination -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Back Navigation Button
+       Fixed position button with arrow icon for easy navigation
+       Uses history.back() for browser-friendly navigation -->
+  <a href="../index.html" class="back-btn" aria-label="Back to rooms" onclick="history.back(); return false;">
+    <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+      <path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </a>
+
+  <!-- Main Page Content Container -->
+  <main class="page">
+    <!-- Page Header with Title and Subtitle -->
+    <header class="page-head">
+      <h1 class="title">Room Details</h1>
+      <p class="subtitle">Check features and availability</p>
+    </header>
+
+    <!-- Room Information Article
+         Semantic article element containing all room details -->
+    <article class="room-card">
+      <!-- Room Photo Section
+           Displays room image or placeholder text when image is unavailable -->
+      <div class="room-photo">
+        <img id="roomImg" alt="Room photo">
+        <div id="roomPlaceholder" class="placeholder-text">Pic placeholder</div>
+      </div>
+
+      <!-- Room Metadata and Information -->
+      <div class="room-meta">
+        <!-- Quick Info Row: Guest capacity and price tier -->
+        <div class="meta-row">
+          <span id="metaPeople">guests</span>
+          <span id="metaPrice">€€</span>
+        </div>
+
+        <!-- Detailed Features List -->
+        <div class="meta-list">
+          <div><strong>Accessibility:</strong> <span id="metaAccessibility">—</span></div>
+          <div><strong>TV/Projector:</strong> <span id="metaTv">—</span></div>
+        </div>
+
+        <!-- Room Description Paragraph -->
+        <p id="roomDescription" class="desc"></p>
+      </div>
+    </article>
+
+    <!-- Call-to-Action Section
+         Primary action button to open availability calendar -->
+    <div class="cta-wrap">
+      <button id="openCalendarBtn" class="btn-primary">Check availability</button>
+    </div>
+  </main>
+
+  <!-- Calendar Modal
+       Fullscreen modal overlay for availability checking and date selection
+       Hidden by default, shown when user clicks "Check availability" button -->
+  <div id="calendarModal" class="modal" aria-hidden="true">
+    <!-- Modal Dialog Container
+         Accessible dialog with proper ARIA attributes and semantic roles -->
+    <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="calTitle">
+      <!-- Modal Close Button
+           Accessible close button with proper label for screen readers -->
+      <button class="modal-close" aria-label="Close" onclick="closeCalendar()">×</button>
+      
+      <!-- Modal Title -->
+      <h2 id="calTitle">Availability</h2>
+
+      <!-- Calendar Component Container -->
+      <div class="calendar">
+        <!-- Calendar Header with Month Navigation -->
+        <div class="cal-header">
+          <button id="prevMonth" class="cal-nav" aria-label="Previous month">‹</button>
+          <div id="calMonthLabel" class="cal-month"></div>
+          <button id="nextMonth" class="cal-nav" aria-label="Next month">›</button>
+        </div>
+
+        <!-- Calendar Grid
+             Dynamic grid populated by JavaScript with day-of-week headers and date cells -->
+        <div class="cal-grid" id="calGrid"></div>
+
+        <!-- Availability Legend
+             Visual guide showing what colors mean in the calendar -->
+        <div class="legend">
+          <span class="legend-item"><i class="dot free"></i> Free</span>
+          <span class="legend-item"><i class="dot busy"></i> Busy</span>
+        </div>
+
+        <!-- Calendar Action Area
+             Hidden initially, shown when user selects a date
+             Contains booking button that navigates to payment page -->
+        <div id="calendarAction" class="calendar-action" hidden>
+          <button id="calendarCta" class="btn-cta">Book</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript Controller for Page Functionality -->
+  <script src="app.js"></script>
+</body>
+</html>

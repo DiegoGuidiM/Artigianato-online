@@ -1,0 +1,250 @@
+/* Rooms List Page Styling
+   Consistent design system with other pages (map/login/payment)
+   Features:
+   - Responsive grid: 1/2/3/4 columns at 410px/860px/1400px breakpoints
+   - Clickable room cards with hover animations
+   - Elegant typography combining serif and sans-serif fonts
+   - Sand/gold color palette for warmth and luxury feel
+*/
+
+/* CSS Custom Properties (Design Tokens)
+   Consistent color palette and spacing system
+*/
+:root{
+  --gold: #bba671;                              /* Primary accent color */
+  --gold-dark: #9f8b58;                         /* Darker gold for hover states */
+  --sand: #e7d9b9;                              /* Card background color */
+  --ink: #1f1c18;                               /* Primary text color */
+  --muted: #4b4b4b;                             /* Secondary text color */
+  --gap: 28px;                                  /* Grid gap between cards */
+  --title-size: clamp(40px, 6vw, 80px);        /* Responsive title size */
+}
+/* Global Reset and Base Styles
+   Consistent box model and full-height layout
+*/
+*{ box-sizing: border-box; }
+html, body{ height: 100%; }
+
+/* Main Body Styling
+   Background image with dark overlay for content readability
+   Modern font stack prioritizing Inter for clean legibility
+*/
+body{
+  margin: 0;
+  font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  color: var(--ink);
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.15), rgba(0,0,0,.45)),  /* Dark overlay */
+    url("../images/rooms_background.jpg");                      /* Room background */
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+}
+
+/* Page Container
+   Centered layout with maximum width constraint
+   Generous padding for comfortable reading
+*/
+.page{ 
+  max-width: 1400px; 
+  margin: 0 auto; 
+  padding: 24px 18px 80px;  /* Extra bottom padding for scrolling comfort */
+}
+
+/* Page Header Layout
+   Relative positioning for absolute back button placement
+*/
+.page-head{ 
+  position: relative; 
+  padding-top: 8px; 
+}
+
+/* Back Navigation Button
+   Fixed position circular button with sand background
+   Semi-transparent for elegant integration with background
+*/
+.back-btn{
+  position: absolute; 
+  top: 4px; 
+  left: 0; 
+  width: 42px; 
+  height: 42px;
+  display: grid; 
+  place-items: center;              /* Perfect centering for icon */
+  border-radius: 999px;             /* Fully circular */
+  background: rgba(231, 217, 185, .92);  /* Semi-transparent sand color */
+  color: #000; 
+  text-decoration: none;
+  box-shadow: 0 6px 14px rgba(0,0,0,.12);  /* Subtle elevation */
+}
+
+/* Title Section Styling
+   Centered white text over dark background
+*/
+.title-wrap{ 
+  text-align: center; 
+  color: #fff; 
+  padding-top: 8px; 
+}
+
+/* Main Page Title
+   Elegant serif typography with responsive sizing
+   Playfair Display for luxury branding feel
+*/
+.title{
+  font-family: "Playfair Display", serif; 
+  font-weight: 900;                      /* Extra bold for impact */
+  font-size: var(--title-size);          /* Responsive: 40px to 80px */
+  line-height: 1;                        /* Tight line height for elegance */
+  letter-spacing: .3px;                  /* Subtle letter spacing */
+  margin: 6px 0 4px;
+}
+
+/* Subtitle Text
+   Supporting text with reduced opacity
+*/
+.subtitle{ 
+  margin: 0 0 10px; 
+  opacity: .9;  /* Slightly transparent for hierarchy */
+}
+
+/* Decorative Underline
+   Visual accent below title section
+*/
+.title-underline{ 
+  width: min(420px, 55%);  /* Responsive width with maximum */
+  height: 8px; 
+  background: #000; 
+  border-radius: 6px; 
+  margin: 8px auto 0; 
+}
+/* Responsive Grid Layout
+   Mobile-first approach with progressive enhancement
+   Adapts from 1 to 4 columns based on available space
+*/
+.grid{
+  display: grid; 
+  grid-template-columns: 1fr;      /* Mobile: Single column */
+  gap: var(--gap);                 /* Consistent spacing between cards */
+  margin-top: 24px;                /* Separation from title section */
+}
+
+/* Responsive Breakpoints for Grid Columns
+   Carefully chosen breakpoints for optimal card proportions
+*/
+@media (min-width: 410px) and (max-width: 859px){ 
+  .grid{ grid-template-columns: repeat(2, 1fr); }    /* Small tablets: 2 columns */
+}
+@media (min-width: 860px) and (max-width: 1399px){ 
+  .grid{ grid-template-columns: repeat(3, 1fr); }    /* Large tablets: 3 columns */
+}
+@media (min-width: 1400px){ 
+  .grid{ grid-template-columns: repeat(4, 1fr); }    /* Desktop: 4 columns */
+}
+
+/* Room Card Component
+   Interactive cards with hover animations
+   Sand background for warmth and elegance
+*/
+.room-card{
+  background: var(--sand);                           /* Warm sand background */
+  border: 2px solid rgba(0,0,0,.08);                /* Subtle dark border */
+  border-radius: 24px;                              /* Generous rounding for modern look */
+  padding: 18px; 
+  box-shadow: 0 8px 18px rgba(0,0,0,0.10);          /* Subtle elevation shadow */
+  display: flex; 
+  flex-direction: column;                           /* Vertical layout for content */
+  width: 100%;
+  cursor: pointer;                                  /* Indicates interactivity */
+  transition: transform .12s ease, box-shadow .12s ease;  /* Smooth hover animation */
+}
+
+/* Room Card Hover Effect
+   Subtle lift animation with enhanced shadow
+*/
+.room-card:hover{ 
+  transform: translateY(-2px);                      /* Gentle upward movement */
+  box-shadow: 0 12px 24px rgba(0,0,0,0.16);        /* Enhanced shadow on hover */
+}
+
+/* Room Photo Container
+   White background container for room images
+   Handles both actual images and placeholder text
+*/
+.room-photo{
+  background: #fff; 
+  border-radius: 18px;                              /* Rounded corners inside card */
+  height: 150px;                                    /* Fixed height for consistency */
+  display: grid; 
+  place-items: center;                              /* Centers content (image or placeholder) */
+  overflow: hidden;                                 /* Clips images to container */
+  margin-bottom: 12px;                              /* Space before room info */
+}
+
+/* Room Photo Images
+   Full coverage with proper aspect ratio handling
+*/
+.room-photo img{ 
+  width: 100%; 
+  height: 100%; 
+  object-fit: cover;                                /* Maintains aspect ratio while filling container */
+  display: block; 
+}
+
+/* Placeholder Text for Missing Images
+   Styled text shown when room images aren't available
+*/
+.placeholder-text{ 
+  color: #666; 
+  font-weight: 600; 
+}
+
+/* Room Information Layout
+   Displays room details in horizontal layout
+   Name on left, additional info on right
+*/
+.room-info{ 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  font-size: 16px; 
+  color: var(--muted);                              /* Muted color for secondary text */
+}
+
+/* Enhanced Mobile Viewport Support
+   Prevents white gaps at bottom on mobile browsers
+   Uses modern viewport units for better mobile experience
+*/
+html, body { 
+  min-height: 100%; 
+  background-color: #0f0f0f;  /* Dark fallback color */
+}
+
+/* Enhanced Body Styling for Modern Browsers
+   Improved background layering and mobile viewport handling
+*/
+body{
+  margin: 0;
+  font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  color: var(--ink);
+  overflow-x: hidden;  /* Prevent horizontal scrolling */
+
+  /* Layered background approach for better control */
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.15), rgba(0,0,0,.45)) center top / cover no-repeat,  /* Dark overlay */
+    url("../images/rooms_background.jpg") center top / cover no-repeat;                      /* Room background */
+
+  /* Scroll attachment for iOS compatibility */
+  background-attachment: scroll, scroll;
+
+  /* Dynamic viewport height for modern mobile browsers */
+  min-height: 100dvh;
+}
+
+/* Small Viewport Height Fallback
+   Alternative for browsers supporting small viewport units
+   Handles cases where URL bar affects viewport calculation
+*/
+@supports (height: 100svh) {
+  body { min-height: 100svh; }
+}

@@ -1,0 +1,355 @@
+/* CSS Custom Properties (Variables)
+   Define color scheme and design tokens for consistency
+   - Gold tones for accents and secondary elements
+   - Neutral colors for text and borders
+   - Green for success actions (payment button)
+   - Background overlay for visual hierarchy
+*/
+:root{
+  --gold: #bba671;        /* Primary gold accent color */
+  --gold-dark: #9f8b58;   /* Darker gold variant for hover states */
+  --card: #ffffff;        /* Card background color */
+  --ink: #1f1c18;         /* Primary dark text color */
+  --muted: #4b4b4b;       /* Muted text for labels and secondary info */
+  --line: #e7e0c9;        /* Border and separator color */
+  --bg-overlay: linear-gradient(180deg, rgba(0,0,0,.20), rgba(0,0,0,.50)); /* Dark overlay for background */
+  --green: #5bbf5b;       /* Success/payment button color */
+  --green-hover: #4caf50; /* Hover state for green buttons */
+}
+
+/* Global Reset and Base Styles
+   Ensures consistent box-sizing and full-height layout
+*/
+*{ box-sizing: border-box; }
+html, body{ height: 100%; }
+
+/* Main Body Styling
+   Sets up background image with room interior
+   Uses Inter font for modern, readable text
+   Dark overlay ensures content readability
+*/
+body{
+  margin: 0;
+  font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  color: var(--ink);
+
+  background-image: url("../images/rooms_background.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center top;
+}
+
+/* Main Page Container
+   Provides minimum height and padding for content
+   Dark overlay gradient for visual hierarchy
+*/
+.page{
+  min-height: 100vh;
+  background: var(--bg-overlay);
+  padding: 24px 16px 60px;
+}
+
+/* Back Navigation Button
+   Fixed position circular button for easy navigation
+   Semi-transparent gold background with shadow for depth
+   High z-index ensures it stays above other content
+*/
+.back-btn{
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: rgba(213,203,166,.95);
+  color: #000;
+  text-decoration: none;
+  box-shadow: 0 6px 14px rgba(0,0,0,.12);
+  z-index: 10;
+}
+
+/* Page Header Section
+   Centered title and subtitle with responsive typography
+   White text stands out against dark background overlay
+*/
+.header{
+  max-width: 1080px;
+  margin: 70px auto 18px;  /* Top margin accounts for fixed back button */
+  text-align: center;
+  color: #fff;
+}
+.title{
+  font-family: "Georgia", serif;  /* Classic serif for elegance */
+  font-weight: 700;
+  font-size: clamp(28px, 4vw, 44px);  /* Responsive size between 28px-44px */
+  margin: 0;
+}
+.subtitle{
+  margin: 6px 0 0;
+  opacity: .9;  /* Slightly transparent for hierarchy */
+}
+
+/* Checkout Grid Layout
+   Mobile-first single column, desktop two-column layout
+   Summary card on left, payment form on right (desktop)
+*/
+.checkout-grid{
+  max-width: 1080px;
+  margin: 0 auto;
+  display: grid;
+  gap: 18px;
+}
+@media (min-width: 960px){
+  .checkout-grid{
+    grid-template-columns: 1fr 1.3fr; /* Summary narrower than form */
+  }
+}
+
+/* Card Components
+   White background cards with subtle borders and shadows
+   Rounded corners for modern, friendly appearance
+*/
+.card{
+  background: var(--card);
+  border: 2px solid var(--line);
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: 0 10px 24px rgba(0,0,0,.10);  /* Subtle depth shadow */
+}
+.card-title{
+  font-size: 18px;
+  margin: 0 0 12px;
+}
+
+/* Booking Summary Styles
+   Clean layout for displaying reservation details
+   Uses definition list for semantic structure
+*/
+.summary-list{
+  display: grid;
+  gap: 10px;
+  margin: 0 0 12px;
+}
+.summary-list dt{
+  font-weight: 600;        /* Bold labels for clarity */
+  color: var(--muted);     /* Muted color for hierarchy */
+}
+.summary-list dd{
+  margin: 2px 0 0;         /* Minimal margin for clean alignment */
+}
+.summary-list > div{
+  display: grid;
+  grid-template-columns: 120px 1fr;  /* Fixed width labels, flexible values */
+  gap: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px dashed var(--line);  /* Subtle separator lines */
+}
+
+/* Total Price Display
+   Prominent display of final amount
+   Separated from detail items with solid border
+*/
+.total{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+  padding-top: 10px;
+  border-top: 2px solid var(--line);  /* Stronger separator for total */
+}
+
+/* Disclaimer Note
+   Small text for pricing transparency
+*/
+.note{ 
+  color: var(--muted); 
+  font-size: 12px; 
+  margin: 8px 0 0; 
+}
+
+/* Payment Form Styling
+   Responsive grid layouts for form fields
+   Mobile-first approach with desktop enhancements
+*/
+.form .mt{ margin-top: 6px; }  /* Margin top utility for form sections */
+
+/* Grid Layouts for Form Fields
+   Single column on mobile, multi-column on tablet/desktop
+*/
+.grid-2{ display: grid; gap: 10px; }
+.grid-3{ display: grid; gap: 10px; }
+@media (min-width: 720px){
+  .grid-2{ grid-template-columns: repeat(2, 1fr); }    /* Two equal columns */
+  .grid-3{ grid-template-columns: 1fr 1fr 1fr; }      /* Three equal columns */
+}
+
+/* Individual Form Field Styling
+   Vertical layout with label above input
+*/
+.form-field{
+  display: grid;
+  gap: 6px;  /* Small gap between label and input */
+}
+.form-field span{ 
+  font-size: 14px; 
+  color: var(--muted);  /* Muted color for labels */
+}
+
+/* Input Field Styling
+   Rounded borders with gold focus state
+   Large touch targets for mobile accessibility
+*/
+.form-field input{
+  border: 1px solid #d7d1bf;  /* Light border matching theme */
+  border-radius: 10px;
+  padding: 10px 12px;         /* Comfortable padding for touch */
+  font-size: 16px;            /* 16px prevents zoom on mobile */
+  outline: none;              /* Custom focus styling below */
+}
+.form-field input:focus{
+  border-color: var(--gold);  /* Gold border on focus */
+  box-shadow: 0 0 0 3px rgba(187,166,113, .25);  /* Subtle gold glow */
+}
+
+/* Checkbox and Terms Agreement
+   Horizontal layout with proper spacing
+*/
+.checkbox{
+  display: flex; 
+  align-items: center; 
+  gap: 8px;
+  margin-top: 6px;
+}
+
+/* Form Actions Container
+   Right-aligned submit button
+*/
+.actions{ 
+  display: flex; 
+  justify-content: flex-end; 
+  margin-top: 14px; 
+}
+
+/* Button Styling
+   Primary button for payment action (green)
+   Secondary button for navigation (gold)
+   Smooth animations and disabled states
+*/
+.btn-primary{
+  background: var(--green);                /* Success green for payment */
+  color: #fff;
+  border: none;
+  border-radius: 999px;                    /* Fully rounded pill shape */
+  padding: 12px 22px;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(0,0,0,.12);  /* Elevated appearance */
+  transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
+}
+.btn-primary:hover{ 
+  background: var(--green-hover); 
+  transform: translateY(-1px);             /* Subtle lift on hover */
+  box-shadow: 0 10px 22px rgba(0,0,0,.16); /* Enhanced shadow on hover */
+}
+.btn-primary[disabled]{ 
+  opacity: .7; 
+  cursor: not-allowed;                     /* Visual feedback for disabled state */
+}
+
+/* Secondary Button
+   Gold accent for less prominent actions
+*/
+.btn-secondary{
+  background: var(--gold);
+  color: #000;                            /* Dark text on light background */
+  border: none;
+  border-radius: 999px;
+  padding: 10px 18px;
+  font-size: 15px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+/* Payment Result Modal
+   Fullscreen overlay for payment confirmation
+   Hidden by default, shown with .show class
+*/
+.result-modal{
+  position: fixed; 
+  inset: 0;                               /* Cover entire viewport */
+  background: rgba(0,0,0,.45);            /* Semi-transparent dark overlay */
+  display: none; 
+  align-items: center; 
+  justify-content: center;
+  padding: 20px;
+}
+.result-modal.show{ display: flex; }      /* Show modal with flex layout */
+
+/* Modal Dialog Content
+   White card with payment result message
+*/
+.result-dialog{
+  background: #fff;
+  border-radius: 16px;
+  padding: 18px;
+  width: min(540px, 100%);                /* Responsive width with max */
+  text-align: center;
+  box-shadow: 0 10px 28px rgba(0,0,0,.22);/* Strong shadow for elevation */
+}
+
+/* Modal Action Buttons
+   Horizontal layout for dialog buttons
+*/
+.result-actions{
+  display: flex; 
+  gap: 10px; 
+  justify-content: center; 
+  margin-top: 12px;
+}
+
+/* Demo Disclaimer Text
+   Right-aligned small text for demo notice
+*/
+.footnote{ 
+  color: var(--muted); 
+  font-size: 12px; 
+  text-align: right; 
+  margin-top: 8px; 
+}
+
+/* Enhanced Viewport Height Handling
+   Modern CSS viewport units for better mobile support
+   Dynamic viewport height (dvh) with fallback support
+*/
+html, body { 
+  min-height: 100%; 
+  background-color: #0f0f0f; 
+}
+
+/* Enhanced Body Styling for Modern Browsers
+   Improved background layering with gradient overlay
+   Dynamic viewport height for mobile browsers
+*/
+body{
+  margin: 0;
+  font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  color: #111;
+  overflow-x: hidden;
+
+  /* Layered background: gradient overlay + room image */
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.15), rgba(0,0,0,.45)) center top / cover no-repeat,
+    url("../images/rooms_background.jpg")                     center top / cover no-repeat;
+  background-attachment: scroll, scroll;
+
+  min-height: 100dvh;  /* Dynamic viewport height for mobile */
+}
+
+/* Small Viewport Height Support
+   Alternative for browsers supporting small viewport units
+*/
+@supports (height: 100svh) {
+  body { min-height: 100svh; }
+}

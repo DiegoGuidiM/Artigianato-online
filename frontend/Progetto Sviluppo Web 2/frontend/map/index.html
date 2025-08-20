@@ -1,0 +1,169 @@
+<!doctype html>
+<!-- CoWorkSpace Map Page
+     Features:
+     - Interactive Italy map background
+     - City search with autocomplete
+     - User account management via offcanvas
+     - Filter system for room search
+     - Navigation to rooms list
+-->
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>CoWorkSpace — Map</title>
+
+	<!-- Bootstrap CSS for layout and components -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+	<!-- Custom styles for map page -->
+	<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+	<div class="map-overlay">
+		<!-- Topbar -->
+		<header class="container-fluid topbar">
+			<!-- Central city search -->
+			<div class="search-wrap">
+				<input id="citySearch" class="form-control search-input" type="search" placeholder="Search for a city..." aria-label="Search for a city" />
+				<!-- SUGGESTIONS DROPDOWN -->
+				<ul id="searchSuggestions" class="search-suggestions" hidden></ul>
+			</div>
+
+			<!-- Fixed user button in top right -->
+			<button id="userBtn" class="filters-fab small-fab user-fab" type="button" data-bs-toggle="offcanvas" data-bs-target="#userOffcanvas" aria-controls="userOffcanvas" aria-label="Open user menu">
+				<span class="filters-icon">👤</span>
+			</button>
+		</header>
+
+		<!-- Main content: Italy map -->
+		<main class="container d-flex justify-content-center align-items-center map-area">
+			<img src="../images/italy.png" alt="Map of Italy" class="italy-map" id="italyMap" />
+		</main>
+
+		<!-- Filters button -->
+		<button id="filtersBtn" class="filters-fab small-fab" aria-label="Open filters" data-bs-toggle="modal" data-bs-target="#filtersModal">
+			<span class="filters-icon">⚙️</span>
+		</button>
+	</div>
+
+	<!-- User Account Offcanvas Menu -->
+	<div class="offcanvas offcanvas-end offcanvas-gold" tabindex="-1" id="userOffcanvas" aria-labelledby="userOffcanvasLabel">
+		<div class="offcanvas-header">
+			<h5 class="offcanvas-title" id="userOffcanvasLabel">My Account</h5>
+			<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+		</div>
+
+		<div class="offcanvas-body account-panel">
+			<!-- Main account actions -->
+			<ul class="account-menu">
+				<li><button class="account-link" id="btnReservations">manage reservations</button></li>
+				<li><button class="account-link" id="btnPayments">manage payments</button></li>
+				<li><button class="account-link" id="btnSettings">settings</button></li>
+			</ul>
+
+			<!-- Logout button at bottom -->
+			<button class="logout-fab" id="btnLogout" aria-label="Logout">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="white">
+					<path d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2zm1 14.93V20h-2v-3.07A8.006 8.006 0 0 1 4.07 13H1v-2h3.07A8.006 8.006 0 0 1 11 4.07V1h2v3.07A8.006 8.006 0 0 1 19.93 11H23v2h-3.07A8.006 8.006 0 0 1 13 16.93z"/>
+				</svg>
+			</button>
+		</div>
+	</div>
+
+	<!-- Filters Modal -->
+	<div class="modal fade" id="filtersModal" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content filters-card">
+				<div class="modal-header">
+					<h5 class="modal-title">Filters</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<!-- Room search filters form -->
+					<form id="filtersForm">
+						<!-- Capacity filter -->
+						<div class="mb-2">
+							<label class="form-label">Number of people</label>
+							<select class="form-select" name="capacity">
+								<option value="">Any</option>
+								<option value="2">Up to 2</option>
+								<option value="4">Up to 4</option>
+								<option value="6">Up to 6</option>
+								<option value="8">Up to 8</option>
+								<option value="10">10+</option>
+							</select>
+						</div>
+
+						<!-- Date range filters -->
+						<div class="row g-2">
+							<div class="col-6">
+								<label class="form-label">From</label>
+								<input type="date" class="form-control" name="dateFrom" />
+							</div>
+							<div class="col-6">
+								<label class="form-label">To</label>
+								<input type="date" class="form-control" name="dateTo" />
+							</div>
+						</div>
+
+						<!-- Room type filters -->
+						<div class="mb-2 mt-2">
+							<label class="form-label">Room Type</label>
+							<div class="d-flex flex-wrap gap-2">
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox" value="meeting" id="fMeeting" />
+									<label class="form-check-label" for="fMeeting">Meeting room</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox" value="private" id="fPrivate" />
+									<label class="form-check-label" for="fPrivate">Private room</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox" value="open" id="fOpen" />
+									<label class="form-check-label" for="fOpen">Open space</label>
+								</div>
+							</div>
+						</div>
+
+						<!-- Amenities filters -->
+						<div class="mb-2">
+							<label class="form-label">Amenities</label>
+							<div class="d-flex flex-wrap gap-2">
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox" value="wifi" id="sWifi" />
+									<label class="form-check-label" for="sWifi">Wi-Fi</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox" value="tv" id="sTv" />
+									<label class="form-check-label" for="sTv">TV/Projector</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox" value="whiteboard" id="sBoard" />
+									<label class="form-check-label" for="sBoard">Whiteboard</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox" value="access" id="sAccess" />
+									<label class="form-check-label" for="sAccess">Accessibility</label>
+								</div>
+							</div>
+						</div>
+
+						<!-- Action buttons -->
+						<div class="mt-3 d-flex justify-content-end gap-2">
+							<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+							<button type="submit" class="btn btn-primary">Apply</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Bootstrap bundle -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+	<!-- Script pagina mappa -->
+	<script src="app.js"></script>
+</body>
+</html>
+

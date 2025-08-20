@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<!-- Rooms List Page
+     Features:
+     - Responsive grid layout for room cards
+     - Dynamic room loading from API or sample data
+     - Clickable room cards leading to booking flow
+     - Filter integration from URL parameters
+     - Elegant typography with Playfair Display and Inter
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Available Rooms</title>
+  <!-- Google Fonts for elegant and modern typography -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Main page container with semantic structure for screen readers -->
+  <main class="page" aria-labelledby="pageTitle">
+    <!-- Page header with navigation and title section -->
+    <header class="page-head">
+      <!-- Back navigation button with arrow icon -->
+      <a class="back-btn" href="../map/index.html" aria-label="Back to map">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+          <path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      
+      <!-- Title section with centered heading and decorative underline -->
+      <div class="title-wrap">
+        <h1 id="pageTitle" class="title">Available Rooms</h1>
+        <p class="subtitle">Pick the best room for your team</p>
+        <div class="title-underline" aria-hidden="true"></div>
+      </div>
+    </header>
+    
+    <!-- Dynamic rooms grid - populated by JavaScript
+         aria-live="polite" announces content changes to screen readers
+         aria-busy="true" indicates loading state initially -->
+    <section id="roomsGrid" class="grid" aria-live="polite" aria-busy="true"></section>
+  </main>
+  
+  <!-- JavaScript for dynamic room loading and interaction -->
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,484 @@
+/* Room Detail Page Styling
+   Comprehensive styling for room information display and calendar modal
+   Features:
+   - Centered single-column layout optimized for room details
+   - Interactive calendar modal with availability visualization
+   - Elegant typography and color scheme consistent with brand
+   - Responsive design with mobile-first approach
+   - Accessible button states and modal interactions
+*/
+
+/* CSS Custom Properties (Design Tokens)
+   Extended color palette for room detail page functionality
+*/
+:root{
+  --gold: #bba671;           /* Primary accent color for buttons */
+  --gold-dark: #9f8b58;      /* Darker gold variant for hover states */
+  --sand: #e7d9b9;           /* Warm sand background for room card */
+  --ink: #1f1c18;            /* Primary dark text color */
+  --muted: #4b4b4b;          /* Secondary muted text color */
+  --maxw: 720px;             /* Maximum content width for optimal reading */
+  --success: #5bbf5b;        /* Success green for available dates */
+  --success-hover: #4caf50;  /* Darker success green for hover states */
+  --danger-bg: #f6dede;      /* Light red background for unavailable dates */
+  --danger-ink: #a00000;     /* Dark red text for unavailable state */
+}
+/* Global Reset and Base Styles
+   Consistent box model and full-height layout foundation
+*/
+*{ box-sizing: border-box; }
+html, body{ height: 100%; }
+
+/* Main Body Layout
+   Background image with dark overlay for content readability
+   Modern font stack with Inter as primary typeface
+*/
+body{
+  margin: 0;
+  font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  color: var(--ink);
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.15), rgba(0,0,0,.45)),  /* Dark overlay gradient */
+    url("../../images/rooms_background.jpg");                   /* Room background image */
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+}
+
+/* Back Navigation Button
+   Fixed position circular button for easy navigation
+   Semi-transparent sand background integrates with design
+   High z-index ensures visibility above other content
+*/
+.back-btn{
+  position: fixed; 
+  top: 14px; 
+  left: 14px; 
+  width: 44px; 
+  height: 44px;
+  display: grid; 
+  place-items: center;                    /* Perfect centering for icon */
+  border-radius: 999px;                   /* Fully circular shape */
+  background: rgba(231, 217, 185, .92);   /* Semi-transparent sand color */
+  color: #000; 
+  text-decoration: none;
+  box-shadow: 0 6px 14px rgba(0,0,0,.12); /* Subtle elevation shadow */
+  z-index: 10;                            /* Above other content */
+}
+
+/* Main Page Container
+   Centered single-column layout with optimal reading width
+   Top margin accounts for fixed back button
+*/
+.page{ 
+  max-width: var(--maxw);     /* Optimal reading width (720px) */
+  margin: 70px auto 100px;    /* Generous vertical margins */
+  padding: 0 18px 60px;       /* Horizontal padding and bottom space */
+}
+
+/* Page Header Styling
+   Centered white text over dark background
+*/
+.page-head{ 
+  text-align: center; 
+  color: #fff; 
+}
+
+/* Main Title Typography
+   Elegant serif typography for luxury feel
+   Responsive sizing adapts to screen width
+*/
+.title{
+  font-family: "Playfair Display", serif; 
+  font-weight: 900;                      /* Extra bold for impact */
+  font-size: clamp(28px, 4vw, 48px);     /* Responsive: 28px to 48px */
+  margin: 0;
+}
+
+/* Subtitle Supporting Text
+   Reduced opacity for visual hierarchy
+*/
+.subtitle{ 
+  margin: 6px 0 16px; 
+  opacity: .9;  /* Slightly transparent */
+}
+/* Room Information Card
+   Main content card with warm sand background
+   Contains room image, metadata, and description
+*/
+.room-card{
+  background: var(--sand);                /* Warm sand background */
+  border-radius: 28px;                    /* Generous rounding for modern feel */
+  padding: 22px;
+  box-shadow: 0 12px 28px rgba(0,0,0,.12); /* Elevated appearance */
+}
+
+/* Room Photo Container
+   White background container for room images or placeholder
+   Fixed height ensures consistent layout
+*/
+.room-photo{
+  background: #fff; 
+  border-radius: 20px;                    /* Rounded corners inside card */
+  height: 260px;                          /* Fixed height for consistency */
+  display: grid; 
+  place-items: center;                    /* Centers image or placeholder */
+  overflow: hidden;                       /* Clips images to container */
+  margin-bottom: 14px;                    /* Space before metadata */
+}
+
+/* Room Photo Images
+   Full container coverage with aspect ratio preservation
+   Hidden by default, shown by JavaScript when image loads
+*/
+.room-photo img{ 
+  width: 100%; 
+  height: 100%; 
+  object-fit: cover;                      /* Maintains aspect ratio */
+  display: none;                          /* Hidden until JavaScript shows it */
+}
+
+/* Placeholder Text for Missing Images
+   Displayed when room images aren't available
+*/
+.placeholder-text{ 
+  color: #333; 
+  font-weight: 600; 
+}
+
+/* Room Metadata Container
+   Grid layout for room information sections
+*/
+.room-meta{ 
+  display: grid; 
+  gap: 10px; 
+  color: var(--muted); 
+  font-size: 18px; 
+}
+
+/* Quick Info Row
+   Horizontal layout for key room details (guests, price)
+   Prominent styling for important information
+*/
+.meta-row{ 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  color: #000;                            /* Darker color for prominence */
+  font-weight: 700;                       /* Bold text for emphasis */
+  font-size: 20px;                        /* Larger size for visibility */
+}
+
+/* Detailed Features List
+   Vertical list of room amenities and features
+*/
+.meta-list > div{ 
+  margin-top: 6px; 
+}
+
+/* Room Description Paragraph
+   Readable paragraph text with comfortable line height
+*/
+.desc{ 
+  margin-top: 10px; 
+  line-height: 1.5;                       /* Improved readability */
+  color: #1a1a1a;                         /* Slightly darker for body text */
+}
+
+/* Call-to-Action Button Container
+   Centered container for primary action button
+*/
+.cta-wrap{ 
+  display: grid; 
+  place-items: center;                    /* Perfect centering */
+  margin-top: 22px; 
+}
+
+/* Primary Action Button
+   Gold-colored button for checking availability
+   Smooth hover animations for interactivity feedback
+*/
+.btn-primary{
+  padding: 12px 26px; 
+  min-width: 220px;                       /* Ensures button is substantial */
+  border: none; 
+  border-radius: 999px;                   /* Fully rounded pill shape */
+  font-size: 18px; 
+  background: var(--gold);                /* Gold brand color */
+  color: #000;                            /* Dark text on light background */
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(0,0,0,.12); /* Elevated appearance */
+  transition: transform .12s ease, box-shadow .12s ease; /* Smooth animations */
+}
+
+/* Primary Button Hover Effect
+   Subtle lift animation with enhanced shadow
+*/
+.btn-primary:hover{ 
+  transform: translateY(-1px);            /* Gentle upward movement */
+  box-shadow: 0 10px 22px rgba(0,0,0,.16); /* Enhanced shadow on hover */
+}
+/* Calendar Modal Styling
+   Fullscreen modal overlay for calendar interface
+   Hidden by default, shown with .show class
+*/
+.modal{
+  position: fixed; 
+  inset: 0;                               /* Cover entire viewport */
+  background: rgba(0,0,0,.35);            /* Semi-transparent dark overlay */
+  display: none;                          /* Hidden by default */
+  align-items: center; 
+  justify-content: center; 
+  padding: 20px;
+}
+.modal.show{ 
+  display: flex;                          /* Show modal with flexbox centering */
+}
+
+/* Modal Dialog Container
+   White card containing calendar interface
+   Responsive width with maximum constraint
+*/
+.modal-dialog{
+  background: #fff; 
+  border-radius: 18px; 
+  width: min(720px, 100%);                /* Responsive width with maximum */
+  padding: 18px; 
+  position: relative;                     /* For absolute positioned close button */
+}
+
+/* Modal Close Button
+   Positioned in top-right corner of modal
+   Circular button with subtle gray background
+*/
+.modal-close{
+  position: absolute; 
+  top: 8px; 
+  right: 10px; 
+  width: 36px; 
+  height: 36px;
+  border-radius: 999px;                   /* Fully circular */
+  border: none; 
+  background: #eee; 
+  font-size: 22px; 
+  cursor: pointer;
+}
+
+/* Calendar Title
+   Modal heading with appropriate spacing
+*/
+#calTitle{ 
+  margin: 6px 0 12px; 
+  font-size: 20px; 
+}
+
+/* Calendar Container
+   Full-width container for calendar interface
+*/
+.calendar{ 
+  width: 100%; 
+}
+
+/* Calendar Header with Navigation
+   Contains month navigation buttons and current month label
+*/
+.cal-header{ 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  margin-bottom: 8px; 
+}
+
+/* Current Month Label
+   Bold text showing current month and year
+*/
+.cal-month{ 
+  font-weight: 700; 
+}
+
+/* Month Navigation Buttons
+   Previous/next month navigation with subtle styling
+*/
+.cal-nav{
+  width: 36px; 
+  height: 36px; 
+  border-radius: 8px; 
+  border: 1px solid #ddd; 
+  background: #f8f8f8; 
+  cursor: pointer;
+}
+
+/* Calendar Grid Layout
+   7-column grid for days of week and date cells
+   Equal spacing between all cells
+*/
+.cal-grid{ 
+  display: grid; 
+  grid-template-columns: repeat(7, 1fr);  /* 7 equal columns for days */
+  gap: 6px; 
+}
+
+/* Day-of-Week Headers
+   Small gray text for Mon, Tue, Wed, etc.
+*/
+.cal-grid .dow{ 
+  text-align: center; 
+  font-size: 12px; 
+  color: #666; 
+  padding: 6px 0; 
+}
+
+/* Calendar Day Cells
+   Clickable date cells with hover and selection states
+   Base styling for all calendar days
+*/
+.day{
+  text-align: center; 
+  padding: 10px 0; 
+  border: 1px solid #eee; 
+  border-radius: 10px;
+  user-select: none;                      /* Prevent text selection */
+  cursor: pointer;
+}
+
+/* Available Day Styling
+   Light green background indicates availability
+*/
+.day.free{ 
+  background: #ecf8ec; 
+}
+
+/* Busy Day Styling
+   Light red background with dark red text for unavailable dates
+*/
+.day.busy{ 
+  background: #faeeee; 
+  color: #b30000; 
+}
+
+/* Today Highlight
+   Blue outline to indicate current date
+*/
+.day.today{ 
+  outline: 2px solid #b1d5ff; 
+}
+
+/* Selected Day Highlight
+   Dark outline to show user selection
+*/
+.day.selected{ 
+  outline: 2px solid #222; 
+}
+
+/* Availability Legend
+   Visual guide explaining calendar color coding
+*/
+.legend{ 
+  margin-top: 10px; 
+  display: flex; 
+  gap: 16px; 
+  font-size: 14px; 
+}
+.legend .dot{ 
+  display:inline-block; 
+  width:10px; 
+  height:10px; 
+  border-radius:50%; 
+  margin-right:6px; 
+}
+.legend .dot.free{ 
+  background:#5bbf5b;                     /* Green dot for available */
+}
+.legend .dot.busy{ 
+  background:#e06565;                     /* Red dot for busy */
+}
+
+/* Calendar Action Area
+   Container for booking button, shown when date is selected
+*/
+.calendar-action{ 
+  margin-top: 14px; 
+  display: flex; 
+  justify-content: center; 
+}
+
+/* Call-to-Action Button (Book/Not Available)
+   Dynamic button that changes based on date availability
+   Smooth transitions for state changes
+*/
+.btn-cta{
+  padding: 12px 22px; 
+  border: none; 
+  border-radius: 999px;                   /* Fully rounded pill shape */
+  font-size: 16px;
+  box-shadow: 0 6px 16px rgba(0,0,0,.12); 
+  transition: transform .12s ease, box-shadow .12s ease, filter .12s ease;
+}
+
+/* Primary CTA Button (Available Dates)
+   Green button for booking available dates
+*/
+.btn-cta.primary{ 
+  background: var(--success); 
+  color: #fff; 
+  cursor: pointer; 
+}
+.btn-cta.primary:hover{ 
+  background: var(--success-hover); 
+  box-shadow: 0 10px 22px rgba(0,0,0,.16); 
+}
+
+/* Danger CTA Button (Unavailable Dates)
+   Red-tinted button for unavailable dates, disabled state
+*/
+.btn-cta.danger{ 
+  background: var(--danger-bg); 
+  color: var(--danger-ink); 
+  cursor: not-allowed; 
+}
+.btn-cta[disabled]{ 
+  opacity: .9; 
+}
+
+/* Responsive Design Enhancement
+   Larger room photo on tablet and desktop screens
+*/
+@media (min-width: 768px){ 
+  .room-photo{ height: 320px; } 
+}
+
+/* Enhanced Mobile Viewport Support
+   Modern viewport units for better mobile browser compatibility
+   Prevents white gaps and ensures full coverage
+*/
+html, body { 
+  min-height: 100%; 
+  background-color: #0f0f0f;  /* Dark fallback color */
+}
+
+/* Enhanced Body Styling for Modern Browsers
+   Improved background layering and mobile viewport handling
+   Uses modern viewport units and scroll attachment for iOS
+*/
+body{
+  margin: 0;
+  font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  color: var(--ink);
+  overflow-x: hidden;  /* Prevent horizontal scrolling */
+
+  /* Layered background approach for better control */
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.15), rgba(0,0,0,.45)) center top / cover no-repeat,  /* Dark overlay */
+    url("../../images/rooms_background.jpg") center top / cover no-repeat;                   /* Room background */
+  background-attachment: scroll, scroll;  /* iOS compatibility */
+
+  min-height: 100dvh;  /* Dynamic viewport height for modern browsers */
+}
+
+/* Small Viewport Height Support
+   Alternative for browsers supporting small viewport units
+   Handles URL bar visibility changes on mobile
+*/
+@supports (height: 100svh) {
+  body { min-height: 100svh; }
+}
