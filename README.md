@@ -18,7 +18,7 @@ I membri del team possono tranquillamente passarsi codice a vicenda in ogni modo
 
 Sarebbe ideale riuscire a tenere un giorno a settimana dove sentirsi tutti, in maniera tale da cercare di aggiornarsi sul da fare in maniera costante e coordinata.
 
-1st call,to-do list:
+1st call - 01/08/2025
 - Lettura approfondita e dettagliata della consegna, definizione di cosa possono fare gli utenti e quali sono le funzionalità richieste.
 - Scelta di tecnologie da usare
 - Definizione di quali schermate saranno presenti nell'applicazione
@@ -30,3 +30,14 @@ Entro la prima settimana sarebbe ideale riuscire ad avere:
 - API principali definite
 - Prototipo wireframe abbozzato
 - Codice iniziale creato e repository avviata
+___
+2nd call - 12/08/2025
+- Definizione delle prime schermate dell'app
+- Aggiornamento generale su struttura del database e API REST
+___
+3rd call - 20-08-2025
+- Update sullo stato dell'applicazione
+- Primi test per il collegamento frontend & backend
+- Database definitivamente concluso
+___
+
