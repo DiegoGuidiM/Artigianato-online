@@ -1,5 +1,4 @@
 const express = require('express');
-const app = express();
 const location = require('../models/Location');
 const LocationRepository = require('../repositories/LocationRepository');
 
@@ -9,14 +8,14 @@ async function addLocation(req, res) {
         const newLocation = new location(null, name, address, city, region, country, capacity);
         const locationRepository = new LocationRepository();
 
-        // Controlla se la sede esiste già
+        //Check if location already exists
         const existingLocation = await locationRepository.getLocationByName(name);
         if(existingLocation) {
             console.log('Location already exists:', name);
-            return res.status(400).json({Error: 'Location already exists'});
+            return res.status(409).json({Error: 'Location already exists'});
         }
 
-        // Aggiungi la nuova sede
+        //Add new location
         await locationRepository.addLocation(newLocation);
         res.status(201).json(newLocation);
         console.log('Location added successfully:', newLocation);
@@ -26,12 +25,28 @@ async function addLocation(req, res) {
     }
 }
 
+async function searchLocations(req, res) {
+    try {
+        const LocationRepository = new LocationRepository();
+        const filters = req.body;
+        const result = await LocationRepository.searchLocations(filters);
+        const locations = result.map(loc => new Location(loc.id, loc.name, loc.address, loc.city, loc.region, loc.country, loc.capacity)); 
+        res.status(200).json(locations);
+        console.log('Locations retrieved successfully:', locations);
+        return locations;
+    }
+    catch (error) {
+        res.status(500).json({Error: 'Failed to search locations'});
+        console.error('Error searching locations:', error);
+    }
+}
+
 async function getLocations(req, res) {
     try {
         const locationRepository = new locationRepository();
         const locations = await locationRepository.getLocations();
         
-        // Controlla se ci sono sedi
+        //Check if locations exist
         if(locations.length == 0) {
             console.log('No locations found');
             return res.status(404).json({Error: 'No locations found'});
@@ -47,5 +62,6 @@ async function getLocations(req, res) {
 
 module.exports = {
     addLocation,
+    searchLocations,
     getLocations
 };

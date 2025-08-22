@@ -1,5 +1,4 @@
 const express = require('express');
-const app = express();
 const User = require('../models/User');
 const UserRepository = require('../repositories/UserRepository');
 const crypto = require('crypto');
@@ -15,7 +14,7 @@ async function register(req, res) {
         const user = new User(null, name, surname, email, password, role);
         const userRepository = new UserRepository();
 
-        //verifico che l'utente non esista già
+        //Check if user already exists
         const existingUser = await userRepository.getUserByEmail(email);
         if(existingUser) {
             console.log('User already exists:', email);
@@ -41,7 +40,7 @@ async function login(req, res) {
         const user = await userRepository.getUserByEmail(email);
         if(!user || user.password !== password) {
             console.log('Invalid email or password:', email);
-            return res.status(401).json({Error: 'Invalid email or password'});
+            return res.status(409).json({Error: 'Invalid email or password'});
         }
         else {
             res.status(200).json({Success: 'Login successful', user});
@@ -51,6 +50,5 @@ async function login(req, res) {
         res.status(500).json({Error: 'Login failed'});
         console.error('Error during login:', error);
     }
+    
 }
-
-
