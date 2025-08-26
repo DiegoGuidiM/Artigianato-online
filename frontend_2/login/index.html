@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CoWorkSpace • Login</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="hero">
+    <h1 class="hero-title">co-work space</h1>
+    <p class="hero-subtitle">everything you need for your meetings</p>
+  </header>
+  <main class="wrap">
+    <section class="panel">
+      
+      
+
+      <!-- Role switch: Client vs Host -->
+      <div class="role-switch" role="tablist" aria-label="Seleziona tipo di accesso">
+        <button class="role-btn active" data-role="client" role="tab" aria-selected="true">Client</button>
+        <button class="role-btn" data-role="host" role="tab" aria-selected="false">Host</button>
+      </div>
+
+      <!-- Login form (same for both roles) -->
+      <form id="loginForm" class="form" novalidate>
+        <label>Email
+          <input name="email" type="email" placeholder="you@example.com" required />
+        </label>
+        <label>Password
+          <input name="password" type="password" placeholder="********" required />
+        </label>
+        <button class="btn-primary" type="submit">Login</button>
+        <p id="loginErr" class="error" hidden></p>
+      </form>
+
+      <hr class="sep" />
+
+      <!-- Register form (includes role) -->
+      <form id="registerForm" class="form" novalidate>
+        <div class="row-2">
+          <label>Name
+            <input name="name" required />
+          </label>
+          <label>Surname
+            <input name="surname" required />
+          </label>
+        </div>
+        <label>Email
+          <input name="email" type="email" required />
+        </label>
+        <label>Password
+          <input name="password" type="password" minlength="8" required />
+        </label>
+
+        <!-- role filled programmatically by the selected tab -->
+        <input type="hidden" name="role" id="regRole" value="client" />
+
+        <button class="btn-primary" type="submit">Create account</button>
+        <p id="registerErr" class="error" hidden></p>
+      </form>
+    </section>
+  </main>
+
+  <script src="../common/config.js"></script>
+  <script src="../common/auth.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

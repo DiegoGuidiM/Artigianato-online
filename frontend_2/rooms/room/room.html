@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dettaglio stanza</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a href="../index.html" class="back-btn" aria-label="Torna alle stanze" onclick="history.back(); return false;">←</a>
+
+  <main class="page">
+    <article class="room-card">
+      <div class="room-photo">
+        <img id="roomImg" alt="Foto stanza">
+        <div id="roomPlaceholder" class="placeholder-text">Pic placeholder</div>
+      </div>
+
+      <div class="room-meta">
+        <div class="meta-row">
+          <span id="metaPeople">n. persone</span>
+          <span id="metaPrice">€€</span>
+        </div>
+        <div class="meta-list">
+          <div><strong>Accesso disabili:</strong> <span id="metaAccessibility">—</span></div>
+          <div><strong>Tv/Proiettore:</strong> <span id="metaTv">—</span></div>
+        </div>
+        <p id="roomDescription" class="desc"></p>
+      </div>
+    </article>
+
+    <div class="cta-wrap">
+      <button id="bookBtn" class="btn-primary">Prenota</button>
+    </div>
+  </main>
+
+  <div id="calendarModal" class="modal" aria-hidden="true">
+    <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="calTitle">
+      <button class="modal-close" aria-label="Chiudi" onclick="closeCalendar()">×</button>
+      <h2 id="calTitle">Disponibilità</h2>
+      <div class="calendar">
+        <div class="cal-header">
+          <button id="prevMonth" class="cal-nav" aria-label="Mese precedente">‹</button>
+          <div id="calMonthLabel" class="cal-month"></div>
+          <button id="nextMonth" class="cal-nav" aria-label="Mese successivo">›</button>
+        </div>
+        <div class="cal-grid" id="calGrid"></div>
+        <div class="legend">
+          <span class="legend-item"><i class="dot free"></i> Libero</span>
+          <span class="legend-item"><i class="dot busy"></i> Occupato</span>
+        </div>
+        <div class="calendar-cta" id="calendarCta" hidden>
+          <button id="calendarAction" class="btn-primary">Prenota</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../common/config.js"></script>
+  <script src="../../common/auth.js"></script>
+  <script src="app.js"></script>
+
+  <!-- Floating favourite (heart) button -->
+  <button id="favBtn" class="fav-fab" aria-label="Aggiungi ai preferiti">♡</button>
+  <div id="favToast" class="toast-pop" role="status" aria-live="polite" hidden>Added to favourites ✓</div>
+</body>
+</html>

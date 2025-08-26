@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CoWorkSpace — Mappa</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="map-overlay">
+    <header class="container-fluid topbar">
+      <div class="search-wrap">
+        <input id="citySearch" class="form-control search-input" type="search" placeholder="Cerca una città..." aria-label="Cerca una città" />
+        <ul id="searchSuggestions" class="search-suggestions" hidden></ul>
+      </div>
+      <button id="userBtn" class="filters-fab small-fab user-fab" type="button" data-bs-toggle="offcanvas" data-bs-target="#userOffcanvas" aria-controls="userOffcanvas" aria-label="Apri menu utente">
+        <span class="filters-icon">👤</span>
+      </button>
+    </header>
+
+    <main class="container d-flex justify-content-center align-items-center map-area">
+      <img src="../images/italy.png" alt="Mappa dell'Italia" class="italy-map" id="italyMap" />
+    </main>
+
+    <button id="filtersBtn" class="filters-fab small-fab" aria-label="Apri filtri" data-bs-toggle="modal" data-bs-target="#filtersModal">
+      <span class="filters-icon">⚙️</span>
+    </button>
+  </div>
+
+  <div class="offcanvas offcanvas-end offcanvas-gold" tabindex="-1" id="userOffcanvas" aria-labelledby="userOffcanvasLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="userOffcanvasLabel">My Account</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Chiudi"></button>
+    </div>
+
+    <div class="offcanvas-body account-panel">
+      <ul class="account-menu">
+        <li><a class="account-link" id="btnReservations" href="../reservations/index.html">manage reservations</a></li>
+        <li><a class="account-link" id="btnFavourites" href="../favourites/index.html">favourites</a></li>
+      </ul>
+      <button class="logout-fab" id="btnLogout" aria-label="Logout" title="Logout">⎋</button>
+    </div>
+  </div>
+
+  <div class="modal fade" id="filtersModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content filters-card">
+        <div class="modal-header">
+          <h5 class="modal-title">Filtri</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>
+        </div>
+        <div class="modal-body">
+          <form id="filtersForm">
+            <div class="mb-2">
+              <label class="form-label">Numero persone</label>
+              <select class="form-select" name="capacity">
+                <option value="">Qualsiasi</option>
+                <option value="2">Almeno 2</option>
+                <option value="4">Almeno 4</option>
+                <option value="6">Almeno 6</option>
+                <option value="8">Almeno 8</option>
+                <option value="10">Almeno 10</option>
+              </select>
+            </div>
+            <div class="row g-2">
+              <div class="col-6">
+                <label class="form-label">Dal</label>
+                <input type="date" class="form-control" name="dateFrom" />
+              </div>
+              <div class="col-6">
+                <label class="form-label">Al</label>
+                <input type="date" class="form-control" name="dateTo" />
+              </div>
+            </div>
+            <div class="mt-3 d-flex justify-content-end gap-2">
+              <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Chiudi</button>
+              <button type="submit" class="btn btn-primary">Applica</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../common/config.js"></script>
+  <script src="../common/auth.js"></script>
+  <script src="app.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
