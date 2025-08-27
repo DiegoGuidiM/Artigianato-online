@@ -51,7 +51,7 @@ router.post('/register', async (req, res) => {
     );
 
     const user = sanitizeUserRow(insert.rows[0]);
-    return res.status(201).json({ user });
+    return res.status(201).json({ success: 'client registered', normRole });
   }catch(e){
     console.error('register error', e);
     return res.status(500).json({ error: 'Internal error' });

@@ -91,4 +91,21 @@ router.get('/rooms/:id', async (req, res) => {
   }
 });
 
+// POST /api/rooms/add
+router.post('/rooms/add', async(req, res) => {
+  try {
+    const data = req.body;
+    const db_query = `
+    INSERT INTO space (city, maxGuests, priceSymbol, imageUrl)
+    VALUES ($1, $2, $3, $4)
+    `;
+    const values = [data.city, data.max_guests, data.price_symbol, data.image_url];
+    await query(db_query, values);
+    res.status(201).json('Room succesfully created');
+  } catch(error) {
+    console.error('POST /rooms/add error', error);
+    res.status(500).json({ error:'Internal error' });
+  }
+});
+
 module.exports = router;

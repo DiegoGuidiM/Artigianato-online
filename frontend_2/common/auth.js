@@ -8,6 +8,8 @@
   const getUser   = () => { try { return JSON.parse(localStorage.getItem(STORAGE.USER)); } catch(_) { return null; } };
   const clearAll  = () => { localStorage.removeItem(STORAGE.TOKEN); localStorage.removeItem(STORAGE.USER); };
 
+  let role;
+
   async function login(email, password){
     const res = await fetch(`${API_BASE_URL}/login`, {
       method: 'POST',
@@ -18,6 +20,7 @@
     if(!res.ok) throw new Error(data.error || 'Login failed');
     if (data.token) saveToken(data.token);
     if (data.user)  saveUser(data.user);
+    role = data.normRole;
     return data.user;
   }
 
@@ -26,9 +29,12 @@
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
-    });
-    const data = await res.json().catch(()=> ({}));
-    if(!res.ok) throw new Error(data.error || 'Register failed');
+    })
+    if(!res.ok) {
+      throw new Error('An error has occurred');
+    }
+    const data = await res.json();
+    role = data.normRole;
     return data.user || data;
   }
 
