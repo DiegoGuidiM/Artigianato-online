@@ -20,9 +20,10 @@
 ## PER HOST:
 
 - [ ] aggiungere tab "my rooms" nella schermata della mappa + creare la schermata (solo per host) (E)
-- [ ] implementare funzionalità per aggiungere le proprie stanze (bottone "+" schermata rooms) (M)
+- [x] implementare funzionalità per aggiungere le proprie stanze (bottone "+" schermata rooms) (M)
 
 ## PER ADMIN:
 
 - [ ] bottone di accesso in alto a dx (G)
 - [ ] admin ha permessi di eliminare e creare nuove room (controllo completo) (G)
+
