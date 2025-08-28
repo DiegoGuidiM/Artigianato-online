@@ -3,7 +3,7 @@
 - [ ] Fixare schermata login (E)
 - [ ] implementare bottone preferiti (G)
 - [ ] implementare conferma prenotazione + room salvata nella schermata prenotazioni (D) 
-- [ ] inserire check su email, password, numero della carta (G)
+- [x] inserire check su email, password, numero della carta (G)
 - [ ] salvare dati pagamento nel db (D)
 - [ ] bottone annullamento prenotazione (schermata prenotazioni effettuate) (D)
 - [ ] notifiche: (D)

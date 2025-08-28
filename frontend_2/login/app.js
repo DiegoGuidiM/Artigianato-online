@@ -29,7 +29,21 @@ document.getElementById('registerForm').addEventListener('submit', async (e)=>{
   e.preventDefault();
   const err = document.getElementById('registerErr'); err.hidden=true;
   const fd = new FormData(e.currentTarget);
-  const payload = Object.fromEntries(fd.entries());  // {name,surname,email,password,role}
+  const payload = Object.fromEntries(fd.entries());
+
+  // Email and password validation
+  const emailRegex = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+  const passRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*]{8,}$/;
+  if (!emailRegex.test(payload.email)) {
+    err.textContent = "Email non valida";
+    err.hidden = false;
+    return;
+  }
+  if (!passRegex.test(payload.password)) {
+    err.textContent = "Password troppo debole (min. 8 caratteri, almeno una lettera e un numero)";
+    err.hidden = false;
+    return;
+  }
   try{
     await Auth.register(payload);
     const user = await Auth.login(payload.email, payload.password);
