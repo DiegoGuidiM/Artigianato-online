@@ -11,13 +11,13 @@ form.addEventListener('submit', (e)=>{
   const pan = fd.get('pan').replace(/\s+/g, '');
   const emailRegex = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
   if (!emailRegex.test(email)) {
-    msg.textContent = 'Email non valida';
+    msg.textContent = 'Invalid email address';
     msg.style.color = '#c00';
     msg.hidden = false;
     return;
   }
   if (!/^[\d]{16}$/.test(pan)) {
-    msg.textContent = 'Numero carta non valido (16 cifre)';
+    msg.textContent = 'Invalid card number (must be 16 digits)';
     msg.style.color = '#c00';
     msg.hidden = false;
     return;
@@ -37,7 +37,7 @@ form.addEventListener('submit', (e)=>{
     return sum % 10 === 0;
   }
   if (!luhnCheck(pan)) {
-    msg.textContent = 'Numero carta non valido (Luhn check fallito)';
+    msg.textContent = 'Invalid card number (Luhn check failed)';
     msg.style.color = '#c00';
     msg.hidden = false;
     return;

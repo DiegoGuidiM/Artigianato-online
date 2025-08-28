@@ -35,12 +35,12 @@ document.getElementById('registerForm').addEventListener('submit', async (e)=>{
   const emailRegex = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
   const passRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*]{8,}$/;
   if (!emailRegex.test(payload.email)) {
-    err.textContent = "Email non valida";
+    err.textContent = "Invalid email address";
     err.hidden = false;
     return;
   }
   if (!passRegex.test(payload.password)) {
-    err.textContent = "Password troppo debole (min. 8 caratteri, almeno una lettera e un numero)";
+    err.textContent = "Password too weak (min. 8 characters, must include a letter and a number)";
     err.hidden = false;
     return;
   }
