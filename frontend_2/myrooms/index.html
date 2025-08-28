@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My Rooms</title>
+  <!-- Stile identico a favourites / reservations -->
+  <link rel="stylesheet" href="../rooms/style.css" />
+  <!-- Mini CSS per la card “+” -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- main content -->
+	<main class="page">
+    <a class="back-map" href="../map/index.html" aria-label="Torna alla mappa">← Back</a>
+    <h1 class="title">My Rooms</h1>
+    <div class="title-underline" aria-hidden="true"></div>
+
+    <section id="grid" class="grid" aria-live="polite" aria-busy="true"></section>
+  </main>
+
+  <script src="../common/config.js"></script>
+  <script src="../common/auth.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+/* design tokens (colors, spacing) */
+:root{ --card:#d5cba6; --muted:#333; }
+*{ box-sizing:border-box; }
+html, body{ height: 100%; background:#0f0f0f; }
+body{
+  margin:0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.15), rgba(0,0,0,.45)) center top/cover no-repeat,
+    url("../../images/rooms_background.jpg") center top/cover no-repeat;
+  min-height: 100dvh;
+}
+
+/* Back button */
+.back-btn{
+  position: fixed; top:14px; left:14px; width:44px; height:44px;
+  display:grid; place-items:center; border-radius:999px;
+  background: rgba(213,203,166,.9); color:#000; text-decoration:none;
+  box-shadow:0 6px 14px rgba(0,0,0,.12); z-index:10;
+}
+
+/* Layout */
+/* page wrapper */
+.page{ max-width:680px; margin:70px auto 100px; padding:0 18px; }
+/* room card */
+.room-card{ background:var(--card); border-radius:30px; padding:24px; box-shadow:0 12px 28px rgba(0,0,0,.12); }
+
+/* Image box: show the entire image (no crop) */
+.room-photo{
+  background:#fff; border-radius:22px;
+  aspect-ratio: 16 / 10;        /* responsive height */
+  height:auto;
+  display:grid; place-items:center; overflow:hidden;
+  margin-bottom:18px;
+  padding:8px;                  /* small inner padding for contain */
+}
+/* Fallback for very old browsers (no aspect-ratio support) */
+@supports not (aspect-ratio: 1 / 1){
+  .room-photo{ height:260px; }  /* same visual as before */
+}
+
+.room-photo img{
+  width:100%; height:100%;
+  object-fit: contain;          /* <-- was cover */
+  object-position:center;
+  display:none;                 /* will be shown by JS when available */
+  background:#fff;              /* avoids dark edges if PNG with alpha */
+}
+
+.placeholder-text{ color:#333; font-weight:600; }
+
+/* Meta */
+.room-meta{ display:grid; gap:10px; color:var(--muted); font-size:18px; }
+.meta-row{ display:flex; justify-content:space-between; align-items:center; color:#000; font-weight:600; font-size:20px; }
+.meta-list>div{ margin-top:6px; }
+.desc{ margin-top:10px; line-height:1.45; color:#1a1a1a; }
+
+/* CTA */
+.cta-wrap{ display:grid; place-items:center; margin-top:26px; }
+.btn-primary{
+  padding:14px 28px; min-width:240px; border:none; border-radius:999px;
+  font-size:20px; background:#b0e8b0; color:#063; cursor:pointer;
+  box-shadow:0 6px 16px rgba(0,0,0,.12);
+}
+
+/* Modal calendar */
+.modal{ position:fixed; inset:0; background:rgba(0,0,0,.35); display:none; align-items:center; justify-content:center; padding:20px; }
+.modal.show{ display:flex; }
+.modal-dialog{ background:#fff; border-radius:18px; width:min(720px, 100%); padding:18px; position:relative; top:-60px; }
+.modal-close{ position:absolute; top:8px; right:10px; width:36px; height:36px; border-radius:999px; border:none; background:#eee; font-size:22px; cursor:pointer; }
+#calTitle{ margin:6px 0 12px; font-size:20px; }
+.calendar{ width:100%; }
+.cal-header{ display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+.cal-month{ font-weight:700; }
+.cal-nav{ width:36px; height:36px; border-radius:8px; border:1px solid #ddd; background:#f8f8f8; cursor:pointer; }
+.cal-grid{ display:grid; grid-template-columns: repeat(7, 1fr); gap:6px; }
+.cal-grid .dow{ text-align:center; font-size:12px; color:#666; padding:6px 0; }
+.day{ text-align:center; padding:10px 0; border:1px solid #eee; border-radius:10px; user-select:none; }
+.day.free{ background:#ecf8ec; }
+.day.busy{ background:#faeeee; color:#b30000; }
+.day.today{ outline:2px solid #b1d5ff; }
+.legend{ margin-top:10px; display:flex; gap:16px; font-size:14px; }
+.legend .dot{ display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:6px; }
+.legend .dot.free{ background:#5bbf5b; }
+.legend .dot.busy{ background:#e06565; }
+.calendar-cta{ margin-top:14px; display:grid; place-items:center; }
+.calendar-cta .btn-primary{ min-width:200px; }
+
+/* Floating favourite heart */
+.fav-fab{
+  position: fixed; right: 16px; bottom: 16px;
+  width: 56px; height:56px; border-radius: 999px;
+  border:none; background: #fff;
+  color:#e03131; font-size: 24px; font-weight:900;
+  box-shadow: 0 10px 24px rgba(0,0,0,.25);
+  cursor:pointer;
+}
+.fav-fab:active{ transform: translateY(1px); }
+
+.toast-pop{
+  position: fixed; right: 16px; bottom: 84px;
+  background: rgba(0,0,0,.85); color:#fff;
+  padding:10px 14px; border-radius: 12px; font-weight:700;
+  box-shadow: 0 8px 24px rgba(0,0,0,.35);
+}

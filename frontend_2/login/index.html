@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="it">
+  <head>
+	<!-- Login page markup. -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CoWorkSpace • Login</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- top header -->
+	<header class="hero">
+	<!-- Login page markup. -->
+      <h1 class="hero-title">co-work space</h1>
+      <p class="hero-subtitle">everything you need for your meetings</p>
+    </header>
+    <!-- main content -->
+	<main class="wrap">
+      <section class="panel">
+        <!-- Login form (same for both roles) -->
+        <!-- login form -->
+	<form id="loginForm" class="form" novalidate>
+          <label>Email
+            <input name="email" type="email" placeholder="you@example.com" required />
+          </label>
+          <label>Password
+            <input name="password" type="password" placeholder="********" required />
+          </label>
+          <button class="btn-primary" type="submit">Login</button>
+          <p id="loginErr" class="error" hidden></p>
+          <p class="switch-auth">
+            Don't have an account?
+            <a href="#" id="openSignup">Sign up</a>
+          </p>
+        </form>
+      </section>
+
+      <!-- SIGNUP MODAL -->
+      <div id="signupModal" class="modal-overlay" hidden>
+        <section class="panel signup-panel" role="dialog" aria-modal="true" aria-labelledby="signupTitle">
+          <button type="button" class="modal-close" id="closeSignup" aria-label="Close">×</button>
+          <h2 class="title" id="signupTitle">Create your account</h2>
+
+          <!-- role-btn (client/host) -->
+          <div class="role-toggle" role="tablist" aria-label="Choose role">
+            <button class="role-btn active" data-role="client" role="tab" aria-selected="true">Client</button>
+            <button class="role-btn" data-role="host" role="tab" aria-selected="false">Host</button>
+          </div>
+
+          <!-- Register form (includes role) -->
+          <!-- sign-up form -->
+	<form id="registerForm" class="form" novalidate>
+            <input type="hidden" name="role" id="regRole" value="client" />
+            <div class="row-2">
+              <label>Name
+                <input name="name" required />
+              </label>
+              <label>Surname
+                <input name="surname" required />
+              </label>
+            </div>
+            <label>Email
+              <input name="email" type="email" required />
+            </label>
+            <label>Password
+              <input name="password" type="password" minlength="8" required />
+            </label>
+            <button class="btn-primary" type="submit">Create account</button>
+            <p id="registerErr" class="error" hidden></p>
+          </form>
+        </section>
+      </div>
+    </main>
+
+    <script src="../common/config.js"></script>
+    <script src="../common/auth.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,27 @@
+/* Mini stile solo per la card “+”. 
+   Il resto (layout, card, tipografia) viene da ../rooms/style.css */
+/* design tokens (colors, spacing) */
+:root { --sand: #e5d6aa; }
+
+.add-card { display: grid; place-items: center; }
+
+.add-card .plus{
+  display: grid; place-items: center;
+  width: 180px; height: 180px;
+  border-radius: 24px;
+  background: var(--sand);
+  color: #fff; font-size: 88px; line-height: 1;
+  text-decoration: none; user-select: none;
+  box-shadow: 0 12px 28px rgba(0,0,0,.18);
+}
+
+.add-card .plus:focus{
+  outline: 3px solid rgba(255,255,255,.6);
+  outline-offset: 3px;
+}
+
+/* responsive tweaks */
+
+@media (max-width: 520px){
+  .add-card .plus{ width:140px; height:140px; font-size:64px; }
+}
