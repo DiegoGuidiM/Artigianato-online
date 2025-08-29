@@ -24,8 +24,7 @@ router.get('/rooms', async (req, res) => {
       const rows = await query(`
         SELECT
           s.id_space            AS id,
-          s.name,
-          s.description,
+          s.city,
           s.max_guests,
           s.price_symbol,
           COALESCE(s.image_url, l.cover_image_url) AS image_url,
@@ -42,8 +41,7 @@ router.get('/rooms', async (req, res) => {
     const rows = await query(`
       SELECT
         s.id_space            AS id,
-        s.name,
-        s.description,
+        s.city,
         s.max_guests,
         s.price_symbol,
         COALESCE(s.image_url, l.cover_image_url) AS image_url,
@@ -71,8 +69,7 @@ router.get('/rooms/:id', async (req, res) => {
     const row = await query(`
       SELECT
         s.id_space            AS id,
-        s.name,
-        s.description,
+        s.city,
         s.max_guests,
         s.price_symbol,
         COALESCE(s.image_url, l.cover_image_url) AS image_url,
