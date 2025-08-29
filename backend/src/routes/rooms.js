@@ -91,21 +91,27 @@ router.get('/rooms/:id', async (req, res) => {
   }
 });
 
-// POST /api/rooms/add
+// POST /api/rooms/add - solo per host
 router.post('/rooms/add', async(req, res) => {
   try {
     const data = req.body;
     const db_query = `
-    INSERT INTO space (city, maxGuests, priceSymbol, imageUrl)
-    VALUES ($1, $2, $3, $4)
+    INSERT INTO space (id_location, id_space_type, city, max_guests, price_symbol, image_url)
+    VALUES (1, 1, $1, $2, $3, $4)
     `;
-    const values = [data.city, data.max_guests, data.price_symbol, data.image_url];
-    await query(db_query, values);
+    //const values = [data.city, data.max_guests, data.price_symbol, data.image_url];
+    await query(db_query, data);
     res.status(201).json('Room succesfully created');
   } catch(error) {
     console.error('POST /rooms/add error', error);
     res.status(500).json({ error:'Internal error' });
   }
+});
+
+// GET /api/rooms/my_rooms - solo per host
+router.get('/rooms/my_rooms', async(req, res) => {
+  const data = req.body;  //il corpo della richiesta dovrà essere l'id dell'host che fa la richiesta
+
 });
 
 module.exports = router;

@@ -10,6 +10,8 @@ const app = express();
 const path = require('path');
 app.use('/images', express.static(path.join(__dirname, '..', 'public', 'images')));
 
+app.use(express.json());
+
 // CORS setup from env
 const ALLOWED = (process.env.CORS_ORIGINS || '').split(',').map(s=>s.trim()).filter(Boolean);
 app.use(cors({
