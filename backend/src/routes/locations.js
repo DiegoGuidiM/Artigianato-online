@@ -20,20 +20,14 @@ router.get('/locations', async (req, res) => {
 
     // senza city: mostro comunque una lista corta (es. landing)
     if (!city) {
+      // Return all locations with main identifiers
       const rows = await query(`
         SELECT
-          s.id_location           AS id,
-          s.id_host,
-          s.name,
-          s.address,
-          s.city,
-          s.region,
-          s.country,
-          s.capacity,
-          s.cover_image_url,
-        FROM location s
-        ORDER BY RANDOM()
-        LIMIT 12
+          id_location,
+          name,
+          city
+        FROM location
+        ORDER BY name
       `);
       return res.json(rows.rows);
     }
