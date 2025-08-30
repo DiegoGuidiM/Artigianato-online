@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 (async function(){
   try {
     const email = 'demo@cowork.com';
-    const pass = '12345678';
+    const pass = 'abc12345678';
     const hash = await bcrypt.hash(pass, 10);
 
     const existing = await query('SELECT 1 FROM users WHERE email=$1', [email]);
