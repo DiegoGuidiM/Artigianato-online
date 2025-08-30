@@ -55,14 +55,14 @@ input{
 .error{ color:#b00020; font-size:14px; }
 .sep{ border:none; height:1px; background:#d9ceb2; margin:14px 0; }
 
-/* Hero header above the login panel */
-.hero{
+/* Top header above the login panel */
+.top{
   width:100%;
   text-align:center;
   padding: clamp(18px, 4vw, 36px) 12px 8px;
   background: linear-gradient(90deg, rgba(255,215,128,0.08), rgba(255,255,255,0));
 }
-.hero-title{
+.top-title{
   margin:0;
   font-size: clamp(32px, 6vw, 72px);
   font-weight: 900;
@@ -71,7 +71,7 @@ input{
   color: #f5e6c8;
   text-shadow: 0 8px 30px rgba(0,0,0,.55);
 }
-.hero-subtitle{
+.top-subtitle{
   margin:6px 0 0 0;
   font-size: clamp(14px, 2.8vw, 24px);
   font-weight: 600;
@@ -90,14 +90,14 @@ input{
   .wrap{ align-items:flex-start; padding-top: 8px; padding-bottom: 16px; }
 }
 
-/* Evita lo scroll orizzontale dell’intera pagina */
+/* No orizontal scroll */
 html, body { overflow-x: hidden; }
 
-/* Consenti agli elementi dentro il pannello di ridursi davvero */
+/* Elements inside the panel shrink in a responsive way */
 /* panel/card */
 .panel form, .panel form * { min-width: 0; }
 
-/* Campi input veramente responsivi */
+/* resposive input fields */
 /* panel/card */
 .panel form input[type="email"],
 /* panel/card */
@@ -111,7 +111,7 @@ html, body { overflow-x: hidden; }
   max-width: 100%;
 }
 
-/* Se hai righe con campi affiancati, su mobile falli andare a colonna */
+/* column-style on mobile screens for responsiveness */
 /* responsive tweaks */
 @media (max-width: 480px) {
   /* panel/card */
@@ -120,7 +120,6 @@ html, body { overflow-x: hidden; }
   .panel .row { display: block; }  /* da orizzontale a verticale */
 }
 
-/* (opzionale) se hai label o bottoni che allargano, impedisci larghezze rigide */
 /* panel/card */
 .panel .btn-primary { width: 100%; max-width: 100%; }
 

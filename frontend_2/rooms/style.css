@@ -17,31 +17,62 @@ body{
 
 /* page wrapper */
 
-.page{ max-width: 1400px; margin: 0 auto; padding: 28px 22px 80px; }
-.back-map{ display:inline-block; margin-bottom:10px; color:#fff; text-decoration:none; background:rgba(0,0,0,.35); padding:6px 10px; border-radius:10px; }
-.title{ font-weight:900; font-size:var(--title-size); line-height:.98; letter-spacing:.5px; margin:6px 0 12px; color:#fff; }
-.title-underline{ width:max(160px, 48%); height:8px; background:#000; margin-top:8px; border-radius:6px; }
+.page{ 
+  max-width: 1400px; 
+  margin: 0 auto; 
+  padding: 28px 22px 80px; 
+}
+.back-map{ 
+  display:inline-block; 
+  margin-bottom:10px; 
+  color:#fff; 
+  text-decoration:none; 
+  background:rgba(0,0,0,.35); 
+  padding:6px 10px; 
+  border-radius:10px; 
+}
+.title{ 
+  font-weight:900; 
+  font-size:var(--title-size); 
+  line-height:.98; 
+  letter-spacing:.5px; 
+  margin:6px 0 12px; 
+  color:#fff; 
+}
+.title-underline{ 
+  width:max(160px, 48%); 
+  height:8px; 
+  background:#000; 
+  margin-top:8px; 
+  border-radius:6px; 
+}
 
-/* Grid */
-/* card grid */
-.grid{ display:grid; grid-template-columns:1fr; gap:var(--gap); margin-top:20px; }
-/* responsive tweaks */
+/* the cards have a grid system based on the width of the screen, changing from 1, 2, 3 or 4 columns */
+.grid{ 
+  display:grid; 
+  grid-template-columns:1fr; 
+  gap:var(--gap); 
+  margin-top:20px; }
 @media (min-width:410px) and (max-width:859px){ .grid{ grid-template-columns: repeat(2, 1fr); } }
-/* responsive tweaks */
 @media (min-width:860px) and (max-width:1399px){ .grid{ grid-template-columns: repeat(3, 1fr); } }
-/* responsive tweaks */
 @media (min-width:1400px){ .grid{ grid-template-columns: repeat(4, 1fr); } }
 
 /* Card */
 /* room card */
 .room-card{
-  background:var(--card); border-radius:var(--card-radius);
-  padding:24px; box-shadow:0 8px 18px rgba(0,0,0,0.08);
-  display:flex; flex-direction:column; width:100%; cursor:pointer;
+  background:var(--card); 
+  border-radius:var(--card-radius);
+  padding:24px; 
+  box-shadow:0 8px 18px rgba(0,0,0,0.08);
+  display:flex; 
+  flex-direction:column; 
+  width:100%; 
+  cursor:pointer;
   transition: transform .12s ease, box-shadow .12s ease;
 }
 /* room card */
-.room-card:hover{ transform: translateY(-2px); box-shadow: 0 12px 24px rgba(0,0,0,0.12); }
+.room-card:hover{ transform: translateY(-2px); 
+  box-shadow: 0 12px 24px rgba(0,0,0,0.12); }
 
 /* Image box: show the entire image (no crop) */
 .room-photo{
@@ -52,14 +83,14 @@ body{
   margin-bottom:14px;
   padding:6px;                /* small padding for contain */
 }
-/* Fallback if aspect-ratio not supported */
+/* Fallback (plan B, we are checking (ferrari reference) if aspect-ratio not supported */
 @supports not (aspect-ratio: 1 / 1){
   .room-photo{ height:150px; }
 }
 
 .room-photo img{
   width:100%; height:100%;
-  object-fit: contain;        /* <-- was cover */
+  object-fit: contain;
   object-position:center;
   display:block;
   background:#fff;

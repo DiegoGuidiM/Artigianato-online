@@ -7,8 +7,7 @@ roleBtns.forEach(btn => btn.addEventListener('click', () => {
   document.getElementById('regRole').value = currentRole;
 }));
 
-// Login
-// handle a UI event (click/submit/etc.)
+// Login, comunicate with backend to authorize
 document.getElementById('loginForm').addEventListener('submit', async (e)=>{
   e.preventDefault();
   const err = document.getElementById('loginErr'); err.hidden=true;
@@ -23,7 +22,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e)=>{
   }
 });
 
-// Register
+// Register, comunicate with backend to create new user
 // handle a UI event (click/submit/etc.)
 document.getElementById('registerForm').addEventListener('submit', async (e)=>{
   e.preventDefault();
@@ -62,7 +61,7 @@ document.getElementById('openSignup')?.addEventListener('click', (e)=>{
 document.getElementById('closeSignup')?.addEventListener('click', ()=>{
   document.getElementById('signupModal')?.setAttribute('hidden','');
 });
-// Chiudi cliccando fuori o con ESC
+// Close by clicking outside the box, or pressing esc
 document.getElementById('signupModal')?.addEventListener('click', (e)=>{
   if(e.target.id === 'signupModal'){ e.currentTarget.setAttribute('hidden',''); }
 });

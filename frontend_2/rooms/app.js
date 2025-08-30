@@ -1,62 +1,66 @@
-/* Requires:
-   - CONFIG.API_BASE_URL (es. "http://localhost:3000/api")
-   - CONFIG.ASSETS_BASE_URL (es. "http://localhost:3000")
-*/
-// user must be logged in, otherwise redirect to login
+/* Rooms page: reads ?city=..., fetches rooms, normalizes data, and renders cards.
+   If the API fails, shows a small demo fallback so the UI isn’t empty. */
+
+// Require auth: if not logged in, go to login
 Auth?.requireAuth("../login/index.html");
 
-// ===== Query param city =====
+//search the city based on input field
 const params = new URLSearchParams(window.location.search);
 const city = params.get('city');
 
-// ===== City tiers & limits =====
-const MAJOR  = ['Milano','Roma','Torino','Bologna','Napoli','Firenze','Venezia','Genova'];
-const MINOR  = ['Varese','Como','Trento','Treviso','Pisa'];
-
-/* helper/function block */
+//City tiers & simple per-city limit
+const MAJOR = ['Milano','Roma','Torino','Bologna','Napoli','Firenze','Venezia','Genova'];
+const MINOR = ['Varese','Como','Trento','Treviso','Pisa'];
 
 function limitForCity(c) {
   const name = (c || '').trim();
-  if (MAJOR.includes(name)) return 5; // grandi → max 5
-  if (MINOR.includes(name)) return 2; // piccole → max 2
-  return 3;                            // medie → max 3
+  if (MAJOR.includes(name)) return 5;
+  if (MINOR.includes(name)) return 2;
+  return 3; // default
 }
 
-// ===== Helpers =====
+// === Helpers ===
 const ASSETS_BASE = (window.CONFIG && CONFIG.ASSETS_BASE_URL) || '';
-
-/* helper/function block */
 
 function toAbsoluteUrl(rawUrl) {
   if (!rawUrl) return '';
-  // Se non è http/https e inizia con '/', lo prefissiamo con ASSETS_BASE
-  if (/^https?:\/\//i.test(rawUrl)) return rawUrl;
-  if (rawUrl.startsWith('/')) return ASSETS_BASE + rawUrl;
-  return rawUrl;
+  if (/^https?:\/\//i.test(rawUrl)) return rawUrl;   // already absolute
+  if (rawUrl.startsWith('/')) return ASSETS_BASE + rawUrl; // app-served asset
+  return rawUrl; // relative path as-is
 }
 
-/* helper/function block */
-
+// Normalize different backend shapes into one consistent object
 function normalizeRoom(raw = {}) {
   return {
+    // id can be named id, id_space, or id_room → take the first that exists. If none, null.
     id: raw.id ?? raw.id_space ?? raw.id_room ?? null,
+
+    // name → string ('' if missing)
     name: raw.name ?? '',
+
+    // city can be named city or location_city; if missing, fall back to the city from the query string (outer variable)
     city: raw.city ?? raw.location_city ?? city ?? '',
+
+    // maxGuests can be named max_guests or maxGuests; if missing, empty string
     maxGuests: raw.max_guests ?? raw.maxGuests ?? '',
+
+    // price symbol: price_symbol or priceSymbol; default '€€'
     priceSymbol: raw.price_symbol ?? raw.priceSymbol ?? '€€',
+
+    // image URL: try several keys; here we use || (falsy OR),
+    // then pass it to toAbsoluteUrl to get an absolute URL.
     imageUrl: toAbsoluteUrl(
       raw.image_url || raw.imageUrl || raw.cover_image_url || raw.coverImageUrl || ''
     ),
   };
 }
 
-// ===== UI =====
-/* helper/function block */
+// UI
+// Build one room card (<article>)
 function createRoomCard(room) {
   const card = document.createElement('article');
   card.className = 'room-card';
 
-  // Foto
   const photo = document.createElement('div');
   photo.className = 'room-photo';
 
@@ -73,7 +77,6 @@ function createRoomCard(room) {
     photo.appendChild(ph);
   }
 
-  // Info
   const info = document.createElement('div');
   info.className = 'room-info';
 
@@ -86,11 +89,10 @@ function createRoomCard(room) {
   info.appendChild(people);
   info.appendChild(price);
 
-  // Click → dettaglio
+  // Click → go to detail (stash room in sessionStorage)
   card.addEventListener('click', () => {
     try { sessionStorage.setItem('selectedRoom', JSON.stringify(room)); } catch (_) {}
     const target = room.id ? `room/room.html?id=${room.id}` : 'room/room.html';
-    // navigate to another page
     window.location.href = target;
   });
 
@@ -99,8 +101,7 @@ function createRoomCard(room) {
   return card;
 }
 
-/* helper/function block */
-
+// Render a list of rooms (or empty state)
 function renderRooms(rooms) {
   const grid = document.getElementById('roomsGrid');
   grid.innerHTML = '';
@@ -118,40 +119,47 @@ function renderRooms(rooms) {
   grid.setAttribute('aria-busy','false');
 }
 
-/* helper/function block */
-
+// Simple loading placeholder
 function showLoading() {
   const grid = document.getElementById('roomsGrid');
   grid.innerHTML = '<div style="color:#fff;">Caricamento stanze…</div>';
   grid.setAttribute('aria-busy','true');
 }
 
-// ===== Data =====
-/* helper/function block */
+// === Data ===
+// Fetch rooms, normalize, apply client-side limit, render; on error → demo fallback
 async function fetchRooms() {
   try {
     showLoading();
+
     const url = city
       ? `${CONFIG.API_BASE_URL}/rooms?city=${encodeURIComponent(city)}`
       : `${CONFIG.API_BASE_URL}/rooms`;
 
     const resp = await fetch(url, { headers: { 'Accept': 'application/json' } });
     if (!resp.ok) throw new Error('HTTP ' + resp.status);
-    const data = await resp.json();
 
-    // Normalizza e applica limite lato client (in caso il backend non limiti)
+    const data = await resp.json();
     const normalized = (Array.isArray(data) ? data : []).map(normalizeRoom);
+
     const finalCity = city || (normalized[0]?.city || '');
     const limit = limitForCity(finalCity);
-    renderRooms(normalized.slice(0, limit));
 
+    renderRooms(normalized.slice(0, limit));
   } catch (e) {
-    // Fallback demo
-    const SAMPLE = Array.from({length: 3}, (_, i) => normalizeRoom({
-      id: i+1, image_url: '', max_guests: (i%4)+1, price_symbol: '€€', name: `Demo Room ${i+1}`, city
+    // Small demo set so the UI still shows something if API is down
+    const SAMPLE = Array.from({ length: 3 }, (_, i) => normalizeRoom({
+      id: i + 1,
+      image_url: '',
+      max_guests: (i % 4) + 1,
+      price_symbol: '€€',
+      name: `Demo Room ${i + 1}`,
+      city
     }));
     renderRooms(SAMPLE);
   }
 }
 
+// Kick off
 fetchRooms();
+

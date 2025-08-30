@@ -1,11 +1,10 @@
-// Only clients should access this page
 // user must be logged in, otherwise redirect to login
 Auth?.requireAuth("../login/index.html");
 const me = Auth.currentUser();
 const isHost = !!(me && me.role === 'host');
-// pick elements from DOM to work with
+// picked elements from DOM to work with
 document.querySelectorAll('.host-only').forEach(el => {
-  el.hidden = !isHost;        // mostra solo agli host
+  el.hidden = !isHost;
 });
 
 // Simple city search demo → goes to rooms
@@ -14,7 +13,6 @@ const cityInput = document.getElementById('citySearch');
 const suggestionBox = document.getElementById('searchSuggestions');
 
 /* helper/function block */
-
 function renderSuggestions(list){
   suggestionBox.innerHTML = '';
   if(!list.length){ suggestionBox.hidden = true; return; }
@@ -29,7 +27,7 @@ function renderSuggestions(list){
 /* helper/function block */
 function selectCity(name){
   cityInput.value = name; suggestionBox.hidden = true;
-  // navigate to another page
+  // navigate to another page, corrisponding to the city name
   window.location.href = "../rooms/index.html?city=" + encodeURIComponent(name);
 }
 cityInput?.addEventListener('input', ()=>{
@@ -39,11 +37,13 @@ cityInput?.addEventListener('input', ()=>{
 });
 document.addEventListener('click', (e)=>{ if(!e.target.closest('.search-wrap')) suggestionBox.hidden = true; });
 
+//logout button to return to login page
 document.getElementById('btnLogout')?.addEventListener('click', async ()=>{
   await Auth.logout();
   // navigate to another page
   window.location.href = "../login/index.html";
 });
+
 document.getElementById('filtersForm')?.addEventListener('submit', (e)=>{
   e.preventDefault();
   const data = Object.fromEntries(new FormData(e.currentTarget).entries());

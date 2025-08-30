@@ -1,18 +1,14 @@
-// Tiny vanilla auth client for login/register/logout with role support
+// login/register/logout with role selection
 (function(global){
   const { API_BASE_URL, STORAGE } = global.CONFIG;
 
   const saveToken = t => localStorage.setItem(STORAGE.TOKEN, t);
   const saveUser  = u => localStorage.setItem(STORAGE.USER, JSON.stringify(u));
-  /* helper/function block */
   const getToken  = () => localStorage.getItem(STORAGE.TOKEN);
-  /* helper/function block */
   const getUser   = () => { try { return JSON.parse(localStorage.getItem(STORAGE.USER)); } catch(_) { return null; } };
-  /* helper/function block */
   const clearAll  = () => { localStorage.removeItem(STORAGE.TOKEN); localStorage.removeItem(STORAGE.USER); };
 
-  /* helper/function block */
-
+  // login block, calls POST API for managing login
   async function login(email, password){
     const res = await fetch(`${API_BASE_URL}/login`, {
       method: 'POST',
@@ -26,8 +22,7 @@
     return data.user;
   }
 
-  /* helper/function block */
-
+  // register block, calls POST api to create new user
   async function register(payload){
     const res = await fetch(`${API_BASE_URL}/register`, {
       method: 'POST',
@@ -39,29 +34,20 @@
     return data.user || data;
   }
 
-  /* helper/function block */
-
-  function logout(){ clearAll(); }
-  /* helper/function block */
-  function isAuthenticated(){ return !!getToken(); }
-  /* helper/function block */
-  function currentUser(){ return getUser(); }
-  /* helper/function block */
-  function requireAuth(loginPath){ if (!isAuthenticated()) window.location.replace(loginPath); }
-  /* helper/function block */
-  function requireRole(role, loginPath){
+// all functions to manage logouts, authentications and authorizations
+  function logout(){ clearAll(); } //clear token
+  function isAuthenticated(){ return !!getToken(); } //check if user is autheticated or not
+  function currentUser(){ return getUser(); } // useful to manage roles, emails...
+  function requireAuth(loginPath){ if (!isAuthenticated()) window.location.replace(loginPath); } //redirect user to login if not authenticated 
+  function requireRole(role, loginPath){ //lock access to non hosts for "my rooms" page
     const u = getUser();
     if(!u || (u.role||'client') !== role){ window.location.replace(loginPath); }
   }
 
-  // Helper: where to go after login based on role
-/* helper/function block */
 function goToHomeByRole(user){
-  // Portiamo tutti alla mappa; l’host vedrà le funzioni extra da lì
-  // navigate to another page
+  // hosts and clients redirected to map
   window.location.href = '../map/index.html';
 }
-
 
   global.Auth = { login, register, logout, isAuthenticated, currentUser, requireAuth, requireRole, goToHomeByRole };
 })(window);

@@ -3,7 +3,12 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+<<<<<<< HEAD
+  <title>Your reservations</title>
+  <!-- same stylesheet as room -->
+=======
   <title>Le tue prenotazioni</title>
+>>>>>>> ed4f39c6650b890af4e207836dec745f3284948d
   <link rel="stylesheet" href="../rooms/style.css">
   <style>
     /* Small, unobtrusive extras that reuse your classes */
@@ -61,12 +66,11 @@
     </section>
   </main>
 
+  <!-- common js files -->
   <script src="../common/config.js"></script>
   <script src="../common/auth.js"></script>
   <script>
-   
-   // --- Page protection (already present) ---
-   
+
     Auth?.requireAuth("../login/index.html");
     // --- Small helper: pick API base from your config, with safe fallbacks ---
     const API_BASE = (window.CONFIG && (CONFIG.API_BASE_URL || CONFIG.API_URL || CONFIG.API)) || "";
