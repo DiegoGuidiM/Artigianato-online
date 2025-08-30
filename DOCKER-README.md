@@ -33,8 +33,33 @@ docker-compose up --build
   docker-compose up --build
   ```
 
+## Logs & Debugging
+
+Container logs are useful for troubleshooting and monitoring application behavior:
+
+- **View live logs for all services:**
+  ```bash
+  docker-compose logs -f
+  ```
+
+- **View logs for a specific service:**
+  ```bash
+  docker-compose logs -f backend
+  docker-compose logs -f db
+  docker-compose logs -f frontend
+  ```
+
+- **View recent logs (not following):**
+  ```bash
+  docker-compose logs backend
+  ```
+
+- **Check startup or crash issues:**
+  Consult logs for backend or database containers for error messages.
+
 ## Notes and Troubleshooting
 - Ensure that no other process is using ports 3000, 5173, or 5432.
 - On first run, the database schema from `SQL/setup.sql` is loaded automatically.
 - Database data is persisted in the Docker named volume `db_data`.
+
 
