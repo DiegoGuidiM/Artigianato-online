@@ -83,6 +83,7 @@ CREATE TABLE IF NOT EXISTS booking (
 -- PAYMENT
 CREATE TABLE IF NOT EXISTS payment (
   id_payment   SERIAL PRIMARY KEY,
+  id_user     INT NOT NULL REFERENCES users(id_user),
   id_booking   INT NOT NULL REFERENCES booking(id_booking),
   amount       DECIMAL(10,2) NOT NULL,
   payment_date TIMESTAMP NOT NULL DEFAULT now(),

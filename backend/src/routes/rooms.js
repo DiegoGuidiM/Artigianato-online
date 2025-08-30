@@ -99,7 +99,7 @@ router.post('/rooms/add/user/:id', async(req, res) => {
     const values = [data.id_location, id_host, data.id_space_type, data.city, data.max_guests, data.price_symbol, data.image_url];
     const db_query = `
     INSERT INTO space (id_location, id_host, id_space_type, city, max_guests, price_symbol, image_url)
-    VALUES ($1, $2, $3, $4, $5, $6)
+    VALUES ($1, $2, $3, $4, $5, $6, $7)
     `;
     await query(db_query, values);
     res.status(201).json('Room succesfully created');
