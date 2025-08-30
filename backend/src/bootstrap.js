@@ -18,6 +18,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS users_email_key ON users(email);
 -- LOCATION (+ cover image url)
 CREATE TABLE IF NOT EXISTS location (
   id_location SERIAL PRIMARY KEY,
+  id_host     INT REFERENCES users(id_user) ON DELETE SET NULL,
   name        VARCHAR(150) NOT NULL,
   address     VARCHAR(255) NOT NULL,
   city        VARCHAR(100) NOT NULL,
@@ -104,6 +105,7 @@ CREATE TABLE IF NOT EXISTS space (
   id_space      SERIAL PRIMARY KEY,
   id_location   INT NOT NULL REFERENCES location(id_location) ON DELETE CASCADE,
   id_space_type INT NOT NULL REFERENCES spacetype(id_space_type),
+  id_host       INT REFERENCES users(id_user) ON DELETE SET NULL,
   name          VARCHAR(160) NOT NULL,
   description   TEXT,
   max_guests    INT NOT NULL DEFAULT 4,

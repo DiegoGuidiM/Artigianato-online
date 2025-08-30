@@ -24,6 +24,7 @@ router.get('/rooms', async (req, res) => {
       const rows = await query(`
         SELECT
           s.id_space            AS id,
+          s.id_host,
           s.city,
           s.max_guests,
           s.price_symbol,
@@ -41,6 +42,7 @@ router.get('/rooms', async (req, res) => {
     const rows = await query(`
       SELECT
         s.id_space            AS id,
+        s.id_host,
         s.city,
         s.max_guests,
         s.price_symbol,
@@ -69,6 +71,7 @@ router.get('/rooms/:id', async (req, res) => {
     const row = await query(`
       SELECT
         s.id_space            AS id,
+        s.id_host,
         s.city,
         s.max_guests,
         s.price_symbol,
@@ -89,26 +92,38 @@ router.get('/rooms/:id', async (req, res) => {
 });
 
 // POST /api/rooms/add - solo per host
-router.post('/rooms/add', async(req, res) => {
+router.post('/rooms/add/user/:id', async(req, res) => {
   try {
+    const id_host = req.params.id;
     const data = req.body;
+    const values = [data.id_location, id_host, data.id_space_type, data.city, data.max_guests, data.price_symbol, data.image_url];
     const db_query = `
-    INSERT INTO space (id_location, id_space_type, city, max_guests, price_symbol, image_url)
-    VALUES (1, 1, $1, $2, $3, $4)
+    INSERT INTO space (id_location, id_host, id_space_type, city, max_guests, price_symbol, image_url)
+    VALUES ($1, $2, $3, $4, $5, $6)
     `;
-    //const values = [data.city, data.max_guests, data.price_symbol, data.image_url];
-    await query(db_query, data);
+    await query(db_query, values);
     res.status(201).json('Room succesfully created');
   } catch(error) {
-    console.error('POST /rooms/add error', error);
+    console.error('POST /rooms/add/user/:id error', error);
     res.status(500).json({ error:'Internal error' });
   }
 });
 
-// GET /api/rooms/my_rooms - solo per host
-router.get('/rooms/my_rooms', async(req, res) => {
-  const data = req.body;  //il corpo della richiesta dovrà essere l'id dell'host che fa la richiesta
-
+// GET /api/rooms/host_rooms/:id - solo per host
+router.get('/rooms/host_rooms//user/:id', async(req, res) => {
+  try {
+    const data = req.params.id;
+    const db_query = `
+    SELECT * FROM space WHERE id_host = $1
+    `;
+    const values = [data];
+    const rooms = await query(db_query, values);
+    if (rooms.rowCount === 0) return res.status(404).json({ error: 'Not found' });
+    res.json(rooms.rows);
+  } catch(error) {
+    console.error('GET /rooms/host_rooms/user/:id error', error);
+    res.status(500).json({ error:'Internal error' });
+  }
 });
 
 module.exports = router;
