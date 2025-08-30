@@ -12,7 +12,7 @@ const msg = document.getElementById('msg');
   form.addEventListener('submit', async (e)=>{
     e.preventDefault();
     const data = Array.from(new FormData(form).values());
-    const res = await fetch(`${API_BASE_URL}/rooms/add`, {
+    const res = await fetch(`${API_BASE_URL}/rooms/add/user/:id`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data)

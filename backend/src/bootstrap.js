@@ -107,7 +107,7 @@ CREATE TABLE IF NOT EXISTS space (
   id_location   INT NOT NULL REFERENCES location(id_location) ON DELETE CASCADE,
   id_space_type INT NOT NULL REFERENCES spacetype(id_space_type),
   id_host       INT REFERENCES users(id_user) ON DELETE SET NULL,
-  name          VARCHAR(160) NOT NULL,
+  city          VARCHAR(160) NOT NULL,
   description   TEXT,
   max_guests    INT NOT NULL DEFAULT 4,
   price_symbol  VARCHAR(4)  NOT NULL DEFAULT '€€',
