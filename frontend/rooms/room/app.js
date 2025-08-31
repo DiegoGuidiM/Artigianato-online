@@ -3,13 +3,11 @@
    - CONFIG.ASSETS_BASE_URL
 */
 // user must be logged in, otherwise redirect to login
+console.log("room/app.js caricato");
 Auth?.requireAuth("../../login/index.html");
 
 (function(){
-  // -------- Helpers --------
   const ASSETS_BASE = (window.CONFIG && CONFIG.ASSETS_BASE_URL) || '';
-
-  /* helper/function block */
 
   function toAbsoluteUrl(rawUrl) {
     if (!rawUrl) return '';
@@ -17,8 +15,6 @@ Auth?.requireAuth("../../login/index.html");
     if (rawUrl.startsWith('/')) return ASSETS_BASE + rawUrl;
     return rawUrl;
   }
-
-  /* helper/function block */
 
   function normalizeRoom(raw = {}) {
     return {
@@ -36,15 +32,12 @@ Auth?.requireAuth("../../login/index.html");
     };
   }
 
-  // -------- State --------
   const stored = sessionStorage.getItem('selectedRoom'); 
   let room = null;
   try { if (stored) room = normalizeRoom(JSON.parse(stored)); } catch(_) {}
 
   const params = new URLSearchParams(window.location.search);
   const id = params.get('id');
-
-  /* helper/function block */
 
   async function fetchById() {
     if (!id) return null;
@@ -58,12 +51,9 @@ Auth?.requireAuth("../../login/index.html");
     }catch(_){ return null; }
   }
 
-  /* helper/function block */
-
   async function init(){
     if(!room) room = await fetchById();
     if(!room){
-      // Fallback demo
       room = normalizeRoom({
         max_guests: 3,
         price_symbol: '€€',
@@ -91,7 +81,7 @@ Auth?.requireAuth("../../login/index.html");
     document.getElementById('roomDescription').textContent = room.description ?? '';
   }
 
-  // -------- Calendar --------
+  // Calendar UI solo grafico
   const modal = document.getElementById('calendarModal');
   const calGrid = document.getElementById('calGrid');
   const monthLabel = document.getElementById('calMonthLabel');
@@ -100,8 +90,6 @@ Auth?.requireAuth("../../login/index.html");
 
   let viewDate = new Date();
   let selected = null;
-
-  /* helper/function block */
 
   function openCalendar(){ 
     modal.classList.add('show'); 
@@ -114,8 +102,6 @@ Auth?.requireAuth("../../login/index.html");
     selected=null; 
     ctaWrap.hidden=true; 
   };
-
-  /* helper/function block */
 
   function renderCalendar(){
     const DOW = ['Lun','Mar','Mer','Gio','Ven','Sab','Dom'];
@@ -142,7 +128,7 @@ Auth?.requireAuth("../../login/index.html");
       cell.className = 'day';
       cell.textContent = d;
 
-      const busy = (d % 6 === 0) || (d % 7 === 0); // fake pattern
+      const busy = (d % 6 === 0) || (d % 7 === 0);
       cell.classList.add(busy ? 'busy' : 'free');
 
       if(year===today.getFullYear() && month===today.getMonth() && d===today.getDate()){
@@ -154,50 +140,34 @@ Auth?.requireAuth("../../login/index.html");
         ctaWrap.hidden = false;
         ctaBtn.textContent = busy ? 'Not available' : 'Prenota';
         ctaBtn.disabled = busy;
-        ctaBtn.style.background = busy ? '#f5c9c9' : '#b0e8b0';
-        ctaBtn.style.color = busy ? '#900' : '#063';
       });
 
       calGrid.appendChild(cell);
     }
   }
 
-  // handle a UI event (click/submit/etc.)
-
   document.getElementById('bookBtn').addEventListener('click', openCalendar);
-  // handle a UI event (click/submit/etc.)
   document.getElementById('prevMonth').addEventListener('click', ()=>{ viewDate.setMonth(viewDate.getMonth()-1); renderCalendar(); });
-  // handle a UI event (click/submit/etc.)
   document.getElementById('nextMonth').addEventListener('click', ()=>{ viewDate.setMonth(viewDate.getMonth()+1); renderCalendar(); });
 
+  // Solo redirect al pagamento (prenotazione NON ancora implementata)
   ctaBtn.addEventListener('click', ()=>{
     if(!selected || selected.busy) return;
     const qs = new URLSearchParams({
       date: `${selected.year}-${String(selected.month).padStart(2,'0')}-${String(selected.day).padStart(2,'0')}`
     }).toString();
-    // navigate to another page
     window.location.href = "../../payment/index.html?" + qs;
   });
 
   modal.addEventListener('click', (e)=>{ if(e.target === modal) window.closeCalendar(); });
 
-  // start
   init();
 })();
 
 
-// === FAVOURITES & RESERVATION HOOKS ===
+// === FAVOURITES ===
 (function(){
   const API = (window.CONFIG && CONFIG.API_BASE_URL) || '';
-  const token = localStorage.getItem((window.CONFIG && window.CONFIG.STORAGE?.TOKEN) || 'cw_token');
-
-  /* helper/function block */
-
-  function authHeaders(){
-    return token ? { 'Authorization': 'Bearer ' + token } : {};
-  }
-
-  /* helper/function block */
 
   function showToast(){
     const t = document.getElementById('favToast');
@@ -206,41 +176,27 @@ Auth?.requireAuth("../../login/index.html");
     setTimeout(()=>{ t.hidden = true; }, 1600);
   }
 
-  // Get room id from URL (?id=...)
   const params = new URLSearchParams(window.location.search);
   const roomId = params.get('id');
 
   document.getElementById('favBtn')?.addEventListener('click', async () => {
-    if(!roomId) return;
+    console.log("CLICK su cuore!");
+    if (!roomId) return;
+    const id_user = Auth.userId();
+    if (!id_user) return console.error('Utente non autenticato');
+
     try {
       const resp = await fetch(API + '/favorites/' + encodeURIComponent(roomId), {
         method: 'POST',
-        headers: { 'Accept': 'application/json', ...authHeaders() }
+        headers: { 'Content-Type': 'application/json', ...Auth.authHeader() },
+        body: JSON.stringify({ id_user })
       });
-      if(!resp.ok) throw new Error('HTTP ' + resp.status);
+      if (!resp.ok) throw new Error('HTTP ' + resp.status);
       showToast();
-    } catch(e){
+    } catch (e) {
       console.error('Add favourite error', e);
-      showToast(); // still show feedback
+      showToast();
     }
-  });
-
-  // Bind reservation to existing CTA button if present
-  document.getElementById('calendarAction')?.addEventListener('click', async () => {
-    if(!roomId) return;
-    try {
-      const resp = await fetch(API + '/reservations/' + encodeURIComponent(roomId), {
-        method: 'POST',
-        headers: { 'Accept': 'application/json', ...authHeaders() }
-      });
-      if(!resp.ok) throw new Error('HTTP ' + resp.status);
-      // After saving reservation, go to list page
-      // navigate to another page
-      window.location.href = '../../reservations/index.html';
-    } catch(e){
-      console.error('Reservation error', e);
-      // navigate to another page
-      window.location.href = '../../reservations/index.html';
-    }
+    console.log('Added to favourites');
   });
 })();

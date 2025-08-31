@@ -54,7 +54,7 @@ router.post('/bookings/:id/cancel', async (req, res) => {
 });
 
 // GET /api/bookings/user/:id
-// Restituisce le prenotazioni dell'utente con info di availability e stato (senza join a location/space)
+// Restituisce le prenotazioni dell'utente con info di availability e stato
 router.get('/bookings/user/:id', async (req, res) => {
   const userId = Number(req.params.id);
   if (!Number.isInteger(userId)) return res.status(400).json({ error: 'Invalid user id' });
@@ -79,7 +79,6 @@ router.get('/bookings/user/:id', async (req, res) => {
       ORDER BY b.created_at DESC
     `, [userId]);
 
-    // Preferisco 200 con [] quando non ci sono risultati; se vuoi 404, dimmelo e lo cambio
     res.json(result.rows);
   } catch (e) {
     console.error('GET /bookings/user/:id error', e);

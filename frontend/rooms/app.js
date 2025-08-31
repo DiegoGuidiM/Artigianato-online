@@ -160,6 +160,32 @@ async function fetchRooms() {
   }
 }
 
+//parte nuova per prenotazione
+document.getElementById('calendarAction')?.addEventListener('click', async () => {
+  if (!roomId) return;
+  const id_user = Auth.userId();
+  if (!id_user) return console.error("Utente non autenticato");
+
+  try {
+    const resp = await fetch(`${API}/bookings/${encodeURIComponent(roomId)}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...Auth.authHeader() },
+      body: JSON.stringify({ id_user })
+    });
+    if (!resp.ok) throw new Error("HTTP " + resp.status);
+
+    const data = await resp.json();
+    console.log("Prenotazione creata", data);
+
+    // Redirect a reservations
+    window.location.href = "../../reservations/index.html";
+  } catch (e) {
+    console.error("Reservation error", e);
+    window.location.href = "../../reservations/index.html";
+  }
+});
+
+
 // Kick off
 fetchRooms();
 
