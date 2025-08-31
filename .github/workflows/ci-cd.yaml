@@ -72,8 +72,8 @@ jobs:
           docker build -t coworkspace-backend:ci backend
           docker build -t coworkspace-frontend:ci frontend
       
-      - name: Run docker-compose for integration
-        run: docker-compose -f compose.yaml up -d
+      - name: Run docker compose for integration
+        run: docker compose -f compose.yaml up -d
 
       - name: Wait for backend health
         run: |
@@ -91,4 +91,4 @@ jobs:
           curl -sI http://localhost:5173 | grep '200 OK'
 
       - name: Collect Compose logs for debugging
-        run: docker-compose -f compose.yaml logs
+        run: docker compose -f compose.yaml logs
