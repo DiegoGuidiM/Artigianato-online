@@ -1,4 +1,3 @@
-// backend/src/routes/rooms.js
 const express = require('express');
 const router = express.Router();
 const { query } = require('../db');
@@ -107,11 +106,14 @@ router.post('/rooms/add/user/:id', async (req, res) => {
       return res.status(400).json({ error: 'Missing required fields: id_space_type, city' });
     }
 
+    // limite massimo 15 ospiti
+    const safeMaxGuests = Math.min(Number(max_guests) || 4, 15);
+
     const values = [
       id_host,
       Number(id_space_type),
       String(city).trim(),
-      Number(max_guests) || 4,
+      safeMaxGuests,
       String(price_symbol || '€€').slice(0, 4),
       image_url || null,
       description || null
@@ -152,6 +154,36 @@ router.get('/rooms/host_rooms/user/:id', async (req, res) => {
   } catch (error) {
     console.error('GET /rooms/host_rooms/user/:id error', error);
     res.status(500).json({ error: 'Internal error' });
+  }
+});
+
+// POST /api/rooms/add_fav/
+router.post('/rooms/add_fav/', async (req, res) => {
+  try {
+    const data = req.body;
+    const db_query = `INSERT INTO favorite_space (id_user, id_space) VALUES($1, $2)`;
+    const values = [data.id_user, data.id_space];
+    await query(db_query, values);
+    res.status(201).json('Room successfully added to favorites!');
+  } catch (error) {
+    console.error('Error adding room to favorites:', error);
+    res.status(500).json({ 'Error': 'internal server error' });
+  }
+});
+
+// GET /api/rooms/get_favs/user/:id
+router.get('/rooms/get_favs/user/:id', async (req, res) => {
+  try {
+    const id_user = req.params.id;
+    const db_query = `SELECT *
+      FROM space s JOIN favorite_space f ON s.id_space = f.id_space
+      WHERE f.id_user = $1`;
+    const values = [id_user];
+    const result = await query(db_query, values);
+    res.status(200).json(result.rows);
+  } catch (error) {
+    console.error('Error fetching favorite rooms', error);
+    res.status(500).json({ 'Error': 'Internal server error' });
   }
 });
 

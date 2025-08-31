@@ -39,6 +39,8 @@ app.use('/api', require('./routes/auth'));
 app.use('/api', require('./routes/rooms'));
 app.use('/api', require('./routes/bookings'));
 app.use('/api', require('./routes/payment'));
+app.use('/api', require('./routes/spacetypes'));
+app.use('/api/notifications', require('./routes/notifications').router);
 
 
 // Bootstrap & start
