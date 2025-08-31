@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Your reservations</title>
+  <link rel="stylesheet" href="../rooms/style.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page">
+    <a class="back-map" href="../map/index.html" aria-label="Torna alla mappa">← Back</a>
+    <h1 class="title">Le tue prenotazioni</h1>
+    <div class="title-underline" aria-hidden="true"></div>
+
+    <div id="error" class="error-banner" role="alert" style="display:none;"></div>
+
+    <section id="grid" class="grid" style="grid-template-columns:1fr; gap:16px;">
+      <article class="room-card">
+        <div class="room-photo skeleton" style="display:flex;align-items:center;justify-content:center;">
+          <div class="room-photo__ph">📅</div>
+        </div>
+        <div class="room-info">
+          <h2 class="skeleton" style="height:20px;width:60%;border-radius:8px;"></h2>
+          <div class="room-meta" style="margin-top:8px;">
+            <div class="skeleton" style="height:14px;width:40%;border-radius:8px;"></div>
+          </div>
+          <div class="room-desc skeleton" style="height:36px;border-radius:8px;margin-top:8px;"></div>
+        </div>
+      </article>
+      <article class="room-card">
+        <div class="room-photo skeleton" style="display:flex;align-items:center;justify-content:center;">
+          <div class="room-photo__ph">📅</div>
+        </div>
+        <div class="room-info">
+          <h2 class="skeleton" style="height:20px;width:55%;border-radius:8px;"></h2>
+          <div class="room-meta" style="margin-top:8px;">
+            <div class="skeleton" style="height:14px;width:35%;border-radius:8px;"></div>
+          </div>
+          <div class="room-desc skeleton" style="height:36px;border-radius:8px;margin-top:8px;"></div>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <script src="../common/config.js"></script>
+  <script src="../common/auth.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

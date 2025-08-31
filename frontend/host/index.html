@@ -1,7 +1,6 @@
 <!doctype html>
 <html lang="it">
 <head>
-	<!-- Host page markup. -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>My rooms • CoWorkSpace</title>
@@ -9,31 +8,40 @@
 </head>
 <body>
   <a href="../login/index.html" class="back-btn" onclick="history.back(); return false;">←</a>
-  <!-- main content -->
-	<main class="page">
+
+  <main class="page">
     <section class="card">
       <h1 class="title">My rooms</h1>
       <p class="subtitle">Add a new room</p>
 
       <form id="roomForm" class="form" novalidate>
-        <div class="row-2">
-          <label>City
-            <input name="city" placeholder="Milano" required />
-          </label>
-          <label>Max guests
-            <input name="maxGuests" type="number" min="1" step="1" value="4" required />
-          </label>
-        </div>
-        <label>Location
-          <select name="id_location" required>
+        <!-- CITY (obbligatoria) -->
+        <label>City
+          <input name="city" id="city" placeholder="Milano" required />
+        </label>
+
+        <!-- SPACE TYPE (FK obbligatoria se prevista a DB) -->
+        <label>Space type
+          <select name="id_space_type" id="spaceTypeId" required>
             <option disabled selected>Loading...</option>
           </select>
         </label>
-        <label>Price symbol
-          <input name="priceSymbol" placeholder="€€" maxlength="3" required />
+
+        <div class="row-2">
+          <label>Max guests
+            <input name="max_guests" id="maxGuests" type="number" min="1" step="1" value="4" required />
+          </label>
+          <label>Price symbol
+            <input name="price_symbol" id="priceSymbol" placeholder="€€" maxlength="4" value="€€" required />
+          </label>
+        </div>
+
+        <label>Description
+          <textarea name="description" id="description" rows="3" placeholder="Descrivi la stanza…"></textarea>
         </label>
+
         <label>Image URL
-          <input name="imageUrl" placeholder="https://..." />
+          <input name="image_url" id="imageUrl" placeholder="https://..." />
         </label>
 
         <button class="btn-primary" type="submit">Save</button>
@@ -47,3 +55,4 @@
   <script src="app.js"></script>
 </body>
 </html>
+

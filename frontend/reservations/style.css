@@ -1,0 +1,73 @@
+/* Extra styles for reservations page */
+.status-chip { 
+    display:inline-block; 
+    padding:2px 8px; 
+    border-radius:999px; 
+    font-size:12px; 
+    font-weight:600; 
+}
+.status-confirmed { 
+    background:#e6f6ec; 
+    color:#0b7a36; 
+}
+.status-cancelled { 
+    background:#fde8e8; 
+    color:#b42318; 
+}
+.status-pending   { 
+    background:#fff5e6; 
+    color:#9a6a00; 
+}
+.actions { 
+    display:flex; 
+    gap:8px; 
+    flex-wrap:wrap; 
+}
+.btn { 
+    appearance:none; 
+    border:1px solid #ddd; 
+    padding:8px 12px; 
+    border-radius:10px; 
+    cursor:pointer; 
+    font-weight:600; 
+}
+.btn:disabled { 
+    opacity:.6; 
+    cursor:not-allowed; 
+}
+.btn-confirm { 
+    background:#0bb36c; 
+    color:white; 
+    border-color:transparent; 
+}
+.btn-cancel  { 
+    background:#ef4444; 
+    color:white; 
+    border-color:transparent; 
+}
+.skeleton { 
+    background:linear-gradient(90deg,#f2f2f2,#e9e9e9,#f2f2f2); 
+    background-size:200% 100%; 
+    animation:sk 1.2s infinite; 
+}
+@keyframes sk { 
+    0%{background-position:200% 0} 100%{background-position:-200% 0} 
+}
+.room-photo__img { 
+    width:100%; 
+    height:100%; 
+    object-fit:cover; 
+    border-radius:12px; 
+}
+.empty { 
+    text-align:center; 
+    color:#777; 
+    padding:40px 0; 
+}
+.error-banner { 
+    background:#fde8e8; 
+    color:#b42318; 
+    padding:10px 12px; 
+    border-radius:10px; 
+    margin:8px 0; 
+}

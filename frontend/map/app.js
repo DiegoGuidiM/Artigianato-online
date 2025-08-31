@@ -43,16 +43,3 @@ document.getElementById('btnLogout')?.addEventListener('click', async ()=>{
   // navigate to another page
   window.location.href = "../login/index.html";
 });
-
-document.getElementById('filtersForm')?.addEventListener('submit', (e)=>{
-  e.preventDefault();
-  const data = Object.fromEntries(new FormData(e.currentTarget).entries());
-  // Interpret 'capacity' as MINIMUM people required
-  const min = data.capacity || '';
-  const city = (document.getElementById('citySearch')?.value || '').trim();
-  const url = new URL('../rooms/index.html', window.location.href);
-  if (city) url.searchParams.set('city', city);
-  if (min)  url.searchParams.set('min', String(min));
-  // navigate to another page
-  window.location.href = url.toString();
-});

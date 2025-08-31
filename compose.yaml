@@ -11,7 +11,12 @@ services:
       - "5432:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
-      - ./SQL/setup.sql:/docker-entrypoint-initdb.d/setup.sql:ro
+      # niente init SQL: il bootstrap Node crea lo schema
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d coworkspace_db"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
 
   backend:
     build: ./backend
@@ -23,6 +28,7 @@ services:
       DB_PASSWORD: postgres
       DB_PORT: 5432
       DB_NAME: coworkspace_db
+      DB_BOOTSTRAP: "true"
       JWT_SECRET: dev_super_secret_change_me
       PORT: 3000
       CORS_ORIGINS: http://localhost:5173,http://127.0.0.1:5173
@@ -32,7 +38,9 @@ services:
       - ./backend:/app
 
   frontend:
-    build: ./frontend_2
+    image: nginx:alpine
+    volumes:
+      - ./frontend:/usr/share/nginx/html:ro
     ports:
       - "5173:80"
     depends_on:
