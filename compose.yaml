@@ -36,9 +36,8 @@ services:
       - "3000:3000"
 
   frontend:
-    image: nginx:alpine
-    volumes:
-      - ./frontend:/usr/share/nginx/html:ro
+    build: ./frontend
+    image: coworkspace-frontend:ci
     ports:
       - "5173:80"
     depends_on:
