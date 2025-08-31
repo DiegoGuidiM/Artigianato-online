@@ -61,12 +61,16 @@ jobs:
       - name: Run docker compose for integration
         run: docker compose -f compose.yaml up -d
 
-      - name: Wait for backend health
+      - name: Wait for backend healthcheck, print logs on failure
         run: |
           n=0
           until curl -sSf http://localhost:3000/health; do
             n=$((n+1))
-            if [ $n -ge 20 ]; then echo "Backend healthcheck failed"; exit 1; fi
+            if [ $n -ge 20 ]; then
+              echo "Backend healthcheck failed, printing logs:"
+              docker compose -f compose.yaml logs backend
+              exit 1
+            fi
             sleep 3
           done
         env:
