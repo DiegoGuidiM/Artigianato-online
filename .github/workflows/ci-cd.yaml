@@ -1,0 +1,94 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
+
+jobs:
+  backend-build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install backend dependencies
+        run: npm ci
+
+      - name: Lint (if script defined)
+        run: |
+          if jq -e '.scripts.lint' package.json > /dev/null; then npm run lint; else echo "No lint script"; fi
+
+      - name: Build Docker image
+        run: docker build -t coworkspace-backend:ci .
+
+  frontend-build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Static HTML validation (optional)
+        run: |
+          if command -v tidy >/dev/null 2>&1; then tidy -errors -q *.html || true; else echo "tidy not installed"; fi
+
+      - name: Build Docker image
+        run: docker build -t coworkspace-frontend:ci .
+
+  integration-test:
+    runs-on: ubuntu-latest
+    services:
+      db:
+        image: postgres:16
+        env:
+          POSTGRES_DB: coworkspace_db
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U postgres -d coworkspace_db"
+          --health-interval=5s
+          --health-timeout=3s
+          --health-retries=10
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create backend and frontend Docker images
+        run: |
+          docker build -t coworkspace-backend:ci backend
+          docker build -t coworkspace-frontend:ci frontend
+      
+      - name: Run docker-compose for integration
+        run: docker-compose -f compose.yaml up -d
+
+      - name: Wait for backend health
+        run: |
+          n=0
+          until curl -sSf http://localhost:3000/health; do
+            n=$((n+1))
+            if [ $n -ge 20 ]; then echo "Backend healthcheck failed"; exit 1; fi
+            sleep 3
+          done
+        env:
+          DOCKER_HOST: tcp://localhost:2375
+
+      - name: Check frontend (http status)
+        run: |
+          curl -sI http://localhost:5173 | grep '200 OK'
+
+      - name: Collect Compose logs for debugging
+        run: docker-compose -f compose.yaml logs
