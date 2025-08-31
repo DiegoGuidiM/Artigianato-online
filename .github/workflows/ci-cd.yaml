@@ -73,8 +73,6 @@ jobs:
             fi
             sleep 3
           done
-        env:
-          DOCKER_HOST: tcp://localhost:2375
 
       - name: Check frontend (http status)
         run: |
