@@ -111,6 +111,19 @@ CREATE TABLE IF NOT EXISTS space (
   updated_at    TIMESTAMP NOT NULL DEFAULT now()
 );
 
+-- BOOKED ROOM 
+CREATE TABLE IF NOT EXISTS booked_room (
+  id_booked_room SERIAL PRIMARY KEY,
+  id_user        INT NOT NULL REFERENCES users(id_user) ON DELETE CASCADE,
+  id_space       INT NOT NULL REFERENCES space(id_space) ON DELETE CASCADE,
+  id_booking     INT NOT NULL REFERENCES booking(id_booking) ON DELETE CASCADE,
+  created_at     TIMESTAMP NOT NULL DEFAULT now()
+);
+
+
+CREATE INDEX IF NOT EXISTS idx_booked_room_user    ON booked_room(id_user);
+CREATE INDEX IF NOT EXISTS idx_booked_room_space   ON booked_room(id_space);
+CREATE INDEX IF NOT EXISTS idx_booked_room_booking ON booked_room(id_booking);
 CREATE INDEX IF NOT EXISTS idx_space_location ON space(id_location);
 CREATE INDEX IF NOT EXISTS idx_space_type     ON space(id_space_type);
 
