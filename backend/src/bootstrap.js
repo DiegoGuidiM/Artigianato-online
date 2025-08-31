@@ -129,6 +129,17 @@ async function bootstrap() {
       created_at TIMESTAMP NOT NULL DEFAULT now(),
       PRIMARY KEY (id_user, id_space)
       );
+
+      -- BOOKED ROOM
+      CREATE TABLE IF NOT EXISTS booked_room (
+        id_booked_room SERIAL PRIMARY KEY,
+        id_user        INT NOT NULL REFERENCES users(id_user) ON DELETE CASCADE,
+        id_space       INT NOT NULL REFERENCES space(id_space) ON DELETE CASCADE,
+        id_booking     INT NOT NULL REFERENCES booking(id_booking) ON DELETE CASCADE,
+        created_at     TIMESTAMP NOT NULL DEFAULT now()
+      );
+
+
     `);
 
     // === EVOLUZIONI/ALLINEAMENTI (safe repeats) ===
@@ -167,6 +178,10 @@ async function bootstrap() {
       CREATE UNIQUE INDEX IF NOT EXISTS location_city_key  ON location(city);
       CREATE INDEX        IF NOT EXISTS idx_space_location ON space(id_location);
       CREATE INDEX        IF NOT EXISTS idx_space_type     ON space(id_space_type);
+      CREATE INDEX IF NOT EXISTS idx_booked_room_user    ON booked_room(id_user);
+      CREATE INDEX IF NOT EXISTS idx_booked_room_space   ON booked_room(id_space);
+      CREATE INDEX IF NOT EXISTS idx_booked_room_booking ON booked_room(id_booking);
+
     `);
 
     await client.query('COMMIT');
