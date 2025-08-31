@@ -11,20 +11,6 @@ CREATE TABLE IF NOT EXISTS users (
 );
 CREATE UNIQUE INDEX IF NOT EXISTS users_email_key ON users(email);
 
--- LOCATION (+ cover image url)
-CREATE TABLE IF NOT EXISTS location (
-  id_location SERIAL PRIMARY KEY,
-  name        VARCHAR(150) NOT NULL,
-  address     VARCHAR(255) NOT NULL,
-  city        VARCHAR(100) NOT NULL,
-  region      VARCHAR(100) NOT NULL,
-  country     VARCHAR(100) NOT NULL,
-  capacity    INT NOT NULL,
-  cover_image_url TEXT,
-  created_at  TIMESTAMP NOT NULL DEFAULT now(),
-  updated_at  TIMESTAMP NOT NULL DEFAULT now()
-);
-
 -- SPACETYPE
 CREATE TABLE IF NOT EXISTS spacetype (
   id_space_type SERIAL PRIMARY KEY,
@@ -114,18 +100,20 @@ CREATE TABLE IF NOT EXISTS favorite_space (
 -- SPACE (stanza fisica, collegata a location + spacetype)
 CREATE TABLE IF NOT EXISTS space (
   id_space      SERIAL PRIMARY KEY,
-  id_location   INT NOT NULL REFERENCES location(id_location) ON DELETE CASCADE,
   id_space_type INT NOT NULL REFERENCES spacetype(id_space_type),
-  name          VARCHAR(160) NOT NULL,
+  id_host       INT REFERENCES users(id_user) ON DELETE SET NULL,
+  city          VARCHAR(160) NOT NULL,
   description   TEXT,
   max_guests    INT NOT NULL DEFAULT 4,
-  price_symbol  VARCHAR(4)  NOT NULL DEFAULT '€€',
+  price_symbol  VARCHAR(4) NOT NULL DEFAULT '€€',
   image_url     TEXT,
   created_at    TIMESTAMP NOT NULL DEFAULT now(),
   updated_at    TIMESTAMP NOT NULL DEFAULT now()
 );
+
 CREATE INDEX IF NOT EXISTS idx_space_location ON space(id_location);
 CREATE INDEX IF NOT EXISTS idx_space_type     ON space(id_space_type);
+
 
 -- UNIQUE per usare ON CONFLICT (name) su SPACETYPE
 CREATE UNIQUE INDEX IF NOT EXISTS spacetype_name_key ON spacetype(name);
